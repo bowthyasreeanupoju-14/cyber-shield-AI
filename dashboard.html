@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberShield — Fraud Detection System</title>
+<link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Exo+2:wght@300;400;600;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:      #020810;
+  --bg2:     #060f1e;
+  --bg3:     #0a1628;
+  --panel:   #0d1f35;
+  --border:  #0e3a5c;
+  --cyan:    #00e5ff;
+  --green:   #00ff9d;
+  --orange:  #ff6b00;
+  --red:     #ff2a2a;
+  --yellow:  #ffd600;
+  --text:    #cce8f4;
+  --text2:   #6a9ab8;
+  --mono:    'Share Tech Mono', monospace;
+  --sans:    'Exo 2', sans-serif;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,229,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,229,255,0.03) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ── HEADER ─────────────────────────────────────────────────── */
+header {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 64px;
+  background: rgba(6,15,30,0.97);
+  border-bottom: 1px solid var(--border);
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-family: var(--mono);
+  font-size: 1.2rem;
+  color: var(--cyan);
+  letter-spacing: 2px;
+}
+
+.logo-icon {
+  width: 36px; height: 36px;
+  border: 2px solid var(--cyan);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  box-shadow: 0 0 12px rgba(0,229,255,0.4);
+}
+
+.status-pill {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--green);
+  background: rgba(0,255,157,0.08);
+  border: 1px solid rgba(0,255,157,0.25);
+  padding: 0.35rem 0.85rem;
+  border-radius: 20px;
+}
+
+.status-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0%,100% { opacity: 1; box-shadow: 0 0 4px var(--green); }
+  50%      { opacity: 0.5; box-shadow: none; }
+}
+
+.header-meta {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text2);
+  text-align: right;
+  line-height: 1.6;
+}
+
+/* ── TABS ────────────────────────────────────────────────────── */
+.tabs {
+  position: relative;
+  z-index: 10;
+  display: flex;
+  gap: 0;
+  background: var(--bg2);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+}
+
+.tab {
+  padding: 0.9rem 1.8rem;
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 1.5px;
+  color: var(--text2);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s;
+  text-transform: uppercase;
+}
+
+.tab:hover { color: var(--cyan); }
+
+.tab.active {
+  color: var(--cyan);
+  border-bottom-color: var(--cyan);
+  background: rgba(0,229,255,0.04);
+}
+
+/* ── MAIN CONTENT ────────────────────────────────────────────── */
+.content {
+  position: relative;
+  z-index: 5;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ── PANEL / CARD ────────────────────────────────────────────── */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.panel::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  opacity: 0.5;
+}
+
+.panel-title {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: var(--cyan);
+  text-transform: uppercase;
+  margin-bottom: 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.panel-title::before {
+  content: '';
+  width: 3px; height: 14px;
+  background: var(--cyan);
+  border-radius: 2px;
+  box-shadow: 0 0 6px var(--cyan);
+}
+
+/* ── GRID LAYOUTS ────────────────────────────────────────────── */
+.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+.grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.5rem; }
+
+@media (max-width: 900px) {
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+}
+
+/* ── SLIDERS ─────────────────────────────────────────────────── */
+.slider-group {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.slider-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.slider-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text2);
+  letter-spacing: 1px;
+}
+
+.slider-val {
+  font-size: 0.9rem;
+  color: var(--cyan);
+  font-weight: 700;
+  min-width: 20px;
+  text-align: right;
+}
+
+input[type=range] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 4px;
+  background: var(--bg3);
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 14px; height: 14px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  cursor: pointer;
+}
+
+input[type=number], input[type=text] {
+  width: 100%;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 0.65rem 0.9rem;
+  color: var(--text);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input[type=number]:focus, input[type=text]:focus {
+  border-color: var(--cyan);
+  box-shadow: 0 0 0 2px rgba(0,229,255,0.1);
+}
+
+.input-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text2);
+  letter-spacing: 1px;
+  margin-bottom: 0.4rem;
+  text-transform: uppercase;
+}
+
+/* ── BUTTON ──────────────────────────────────────────────────── */
+.btn-analyze {
+  width: 100%;
+  padding: 1rem;
+  background: transparent;
+  border: 1px solid var(--cyan);
+  border-radius: 6px;
+  color: var(--cyan);
+  font-family: var(--mono);
+  font-size: 0.85rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s;
+  margin-top: 0.5rem;
+}
+
+.btn-analyze::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--cyan);
+  transform: translateX(-100%);
+  transition: transform 0.3s;
+  z-index: -1;
+}
+
+.btn-analyze:hover {
+  color: var(--bg);
+  box-shadow: 0 0 20px rgba(0,229,255,0.4);
+}
+
+.btn-analyze:hover::before { transform: translateX(0); }
+
+.btn-analyze:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* ── RISK METER ──────────────────────────────────────────────── */
+.risk-meter-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+}
+
+.risk-circle {
+  position: relative;
+  width: 180px; height: 180px;
+}
+
+.risk-circle svg {
+  transform: rotate(-90deg);
+  width: 100%; height: 100%;
+}
+
+.risk-circle .track {
+  fill: none;
+  stroke: var(--bg3);
+  stroke-width: 12;
+}
+
+.risk-circle .fill {
+  fill: none;
+  stroke-width: 12;
+  stroke-linecap: round;
+  stroke-dasharray: 502;
+  stroke-dashoffset: 502;
+  transition: stroke-dashoffset 1s cubic-bezier(0.4,0,0.2,1),
+              stroke 0.5s;
+}
+
+.risk-score-label {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.risk-number {
+  font-family: var(--mono);
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1;
+  transition: color 0.5s;
+}
+
+.risk-unit {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text2);
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
+
+.risk-level-badge {
+  margin-top: 1.25rem;
+  padding: 0.4rem 1.5rem;
+  border-radius: 20px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-weight: 700;
+  border: 1px solid;
+  transition: all 0.5s;
+}
+
+.risk-level-badge.LOW      { color: var(--green);  border-color: var(--green);  background: rgba(0,255,157,0.08); }
+.risk-level-badge.MEDIUM   { color: var(--yellow); border-color: var(--yellow); background: rgba(255,214,0,0.08); }
+.risk-level-badge.HIGH     { color: var(--orange); border-color: var(--orange); background: rgba(255,107,0,0.08); }
+.risk-level-badge.CRITICAL { color: var(--red);    border-color: var(--red);    background: rgba(255,42,42,0.08); animation: blink 1s infinite; }
+
+@keyframes blink {
+  0%,100% { box-shadow: 0 0 10px rgba(255,42,42,0.5); }
+  50%      { box-shadow: 0 0 25px rgba(255,42,42,0.8); }
+}
+
+/* ── SCORE BREAKDOWN ─────────────────────────────────────────── */
+.score-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+
+.score-label { color: var(--text2); letter-spacing: 1px; }
+.score-value { color: var(--cyan); }
+
+.score-bar-wrap {
+  width: 100%;
+  height: 4px;
+  background: var(--bg3);
+  border-radius: 2px;
+  margin: 0.3rem 0 0.8rem;
+  overflow: hidden;
+}
+
+.score-bar {
+  height: 100%;
+  border-radius: 2px;
+  width: 0%;
+  transition: width 1s cubic-bezier(0.4,0,0.2,1);
+}
+
+/* ── SHAP EXPLANATION ────────────────────────────────────────── */
+.shap-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 6px;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.04);
+}
+
+.shap-feature {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text2);
+  width: 160px;
+  flex-shrink: 0;
+  letter-spacing: 0.5px;
+}
+
+.shap-bar-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--bg3);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.shap-bar {
+  height: 100%;
+  border-radius: 3px;
+  width: 0%;
+  transition: width 1s;
+}
+
+.shap-bar.fraud { background: linear-gradient(90deg, var(--orange), var(--red)); }
+.shap-bar.legit { background: linear-gradient(90deg, var(--cyan), var(--green)); }
+
+.shap-val {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  width: 55px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.shap-dir {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  width: 60px;
+  flex-shrink: 0;
+  text-align: center;
+  padding: 0.15rem 0.4rem;
+  border-radius: 3px;
+}
+
+.shap-dir.fraud { color: var(--red);   background: rgba(255,42,42,0.1); }
+.shap-dir.legit { color: var(--green); background: rgba(0,255,157,0.1); }
+
+/* ── ALERT TABLE ─────────────────────────────────────────────── */
+.alert-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: var(--mono);
+  font-size: 0.75rem;
+}
+
+.alert-table th {
+  padding: 0.65rem 1rem;
+  text-align: left;
+  color: var(--text2);
+  letter-spacing: 1.5px;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.65rem;
+  text-transform: uppercase;
+}
+
+.alert-table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid rgba(14,58,92,0.4);
+  color: var(--text);
+  transition: background 0.2s;
+}
+
+.alert-table tr:hover td { background: rgba(0,229,255,0.03); }
+
+.level-tag {
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.65rem;
+  letter-spacing: 1px;
+  font-weight: 700;
+}
+
+.level-tag.LOW      { color: var(--green);  background: rgba(0,255,157,0.1); }
+.level-tag.MEDIUM   { color: var(--yellow); background: rgba(255,214,0,0.1); }
+.level-tag.HIGH     { color: var(--orange); background: rgba(255,107,0,0.1); }
+.level-tag.CRITICAL { color: var(--red);    background: rgba(255,42,42,0.1); }
+
+/* ── ANALYTICS STATS ─────────────────────────────────────────── */
+.stat-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.stat-number {
+  font-family: var(--mono);
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--cyan);
+  line-height: 1;
+}
+
+.stat-label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text2);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+}
+
+/* ── ANOMALY CONTRIBUTION BARS ───────────────────────────────── */
+.contrib-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.9rem;
+}
+
+.contrib-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--text2);
+  width: 130px;
+  flex-shrink: 0;
+}
+
+.contrib-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--bg3);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.contrib-bar {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--cyan), var(--green));
+  width: 0%;
+  transition: width 1.2s cubic-bezier(0.4,0,0.2,1);
+}
+
+.contrib-pct {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  color: var(--cyan);
+  width: 45px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* ── ALERTS ──────────────────────────────────────────────────── */
+.alert-banner {
+  display: none;
+  padding: 0.85rem 1.25rem;
+  border-radius: 6px;
+  font-family: var(--mono);
+  font-size: 0.8rem;
+  margin-bottom: 1rem;
+  border: 1px solid;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { opacity:0; transform: translateY(-8px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.alert-banner.critical {
+  display: block;
+  color: var(--red);
+  border-color: rgba(255,42,42,0.4);
+  background: rgba(255,42,42,0.06);
+}
+
+.alert-banner.high {
+  display: block;
+  color: var(--orange);
+  border-color: rgba(255,107,0,0.4);
+  background: rgba(255,107,0,0.06);
+}
+
+/* ── LOADING ─────────────────────────────────────────────────── */
+.loading {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  gap: 1rem;
+}
+
+.loading.show { display: flex; }
+
+.spinner {
+  width: 40px; height: 40px;
+  border: 2px solid var(--border);
+  border-top-color: var(--cyan);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-text {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text2);
+  letter-spacing: 2px;
+}
+
+/* ── RESULT SECTION ──────────────────────────────────────────── */
+#result-section { display: none; }
+#result-section.show { display: block; }
+
+/* ── EMPTY STATE ─────────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  font-family: var(--mono);
+  color: var(--text2);
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+}
+
+.empty-icon { font-size: 2.5rem; margin-bottom: 1rem; opacity: 0.4; }
+
+/* ── MODEL INFO BAR ──────────────────────────────────────────── */
+.model-bar {
+  display: flex;
+  gap: 2rem;
+  padding: 0.85rem 2rem;
+  background: rgba(13,31,53,0.8);
+  border-bottom: 1px solid var(--border);
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text2);
+  position: relative;
+  z-index: 9;
+  overflow-x: auto;
+}
+
+.model-stat { display: flex; gap: 0.5rem; white-space: nowrap; }
+.model-stat span { color: var(--cyan); }
+
+/* ── MISC ────────────────────────────────────────────────────── */
+.mb-1 { margin-bottom: 1rem; }
+.mb-15 { margin-bottom: 1.5rem; }
+.mt-1 { margin-top: 1rem; }
+
+.section-gap { margin-bottom: 1.5rem; }
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 1.25rem 0;
+}
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ──────────────────────────────────────────────────── -->
+<header>
+  <div class="logo">
+    <div class="logo-icon">⬡</div>
+    CYBERSHIELD
+  </div>
+  <div class="model-bar" style="background:transparent;border:none;padding:0;position:static;">
+    <div class="model-stat">MODEL <span id="hdr-model">—</span></div>
+    <div class="model-stat">ACCURACY <span id="hdr-acc">—</span></div>
+    <div class="model-stat">AUC <span id="hdr-auc">—</span></div>
+  </div>
+  <div class="status-pill">
+    <div class="status-dot"></div>
+    SYSTEM ONLINE
+  </div>
+</header>
+
+<!-- ── TABS ────────────────────────────────────────────────────── -->
+<div class="tabs">
+  <div class="tab active" onclick="switchTab('checker')">⬡ Transaction Checker</div>
+  <div class="tab" onclick="switchTab('history')">◈ Alert History</div>
+  <div class="tab" onclick="switchTab('analytics')">◉ Analytics</div>
+</div>
+
+<!-- ── CONTENT ─────────────────────────────────────────────────── -->
+<div class="content">
+
+  <!-- TAB 1: TRANSACTION CHECKER -->
+  <div id="tab-checker" class="tab-panel active">
+
+    <div id="alert-banner" class="alert-banner"></div>
+
+    <div class="grid-2">
+
+      <!-- LEFT: Input Form -->
+      <div>
+        <div class="panel section-gap">
+          <div class="panel-title">Anomaly Signals</div>
+
+          <div class="slider-group">
+            <div class="slider-row">
+              <div class="slider-label">
+                CREDENTIAL ANOMALY
+                <span class="slider-val" id="val-cred">0</span>
+              </div>
+              <input type="range" min="0" max="3" value="0" id="sl-cred"
+                oninput="document.getElementById('val-cred').textContent=this.value">
+            </div>
+            <div class="slider-row">
+              <div class="slider-label">
+                DEVICE ANOMALY
+                <span class="slider-val" id="val-dev">0</span>
+              </div>
+              <input type="range" min="0" max="3" value="0" id="sl-dev"
+                oninput="document.getElementById('val-dev').textContent=this.value">
+            </div>
+            <div class="slider-row">
+              <div class="slider-label">
+                TEMPORAL ANOMALY
+                <span class="slider-val" id="val-temp">0</span>
+              </div>
+              <input type="range" min="0" max="2" value="0" id="sl-temp"
+                oninput="document.getElementById('val-temp').textContent=this.value">
+            </div>
+            <div class="slider-row">
+              <div class="slider-label">
+                BEHAVIORAL ANOMALY
+                <span class="slider-val" id="val-beh">0</span>
+              </div>
+              <input type="range" min="0" max="2" value="0" id="sl-beh"
+                oninput="document.getElementById('val-beh').textContent=this.value">
+            </div>
+            <div class="slider-row">
+              <div class="slider-label">
+                GEOSPATIAL ANOMALY
+                <span class="slider-val" id="val-geo">0</span>
+              </div>
+              <input type="range" min="0" max="3" value="0" id="sl-geo"
+                oninput="document.getElementById('val-geo').textContent=this.value">
+            </div>
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Transaction Details</div>
+          <div class="mb-1">
+            <div class="input-label">Transaction ID</div>
+            <input type="text" id="inp-txnid" placeholder="e.g. TXN-20260321-001" value="">
+          </div>
+          <div class="mb-1">
+            <div class="input-label">Amount (₹)</div>
+            <input type="number" id="inp-amount" placeholder="e.g. 5000" value="100" min="0">
+          </div>
+          <button class="btn-analyze" id="btn-analyze" onclick="analyzeTransaction()">
+            ▶ ANALYZE TRANSACTION
+          </button>
+        </div>
+      </div>
+
+      <!-- RIGHT: Results -->
+      <div>
+        <!-- Loading -->
+        <div class="panel" id="loading-panel" style="display:none;">
+          <div class="loading show">
+            <div class="spinner"></div>
+            <div class="loading-text">ANALYZING TRANSACTION...</div>
+          </div>
+        </div>
+
+        <!-- Default empty state -->
+        <div class="panel" id="empty-panel">
+          <div class="empty-state">
+            <div class="empty-icon">◈</div>
+            <div>SET ANOMALY SCORES AND</div>
+            <div>CLICK ANALYZE TO BEGIN</div>
+          </div>
+        </div>
+
+        <!-- Results -->
+        <div id="result-section">
+          <!-- Risk Meter -->
+          <div class="panel section-gap">
+            <div class="panel-title">Risk Assessment</div>
+            <div class="risk-meter-wrap">
+              <div class="risk-circle">
+                <svg viewBox="0 0 180 180">
+                  <circle class="track" cx="90" cy="90" r="80"/>
+                  <circle class="fill" id="risk-fill" cx="90" cy="90" r="80"/>
+                </svg>
+                <div class="risk-score-label">
+                  <div class="risk-number" id="risk-number">0</div>
+                  <div class="risk-unit">/ 100</div>
+                </div>
+              </div>
+              <div class="risk-level-badge LOW" id="risk-badge">LOW</div>
+            </div>
+
+            <div class="divider"></div>
+
+            <!-- Score breakdown -->
+            <div class="score-row">
+              <span class="score-label">MODEL PROBABILITY</span>
+              <span class="score-value" id="score-model">—</span>
+            </div>
+            <div class="score-bar-wrap">
+              <div class="score-bar" id="bar-model" style="background: var(--cyan);"></div>
+            </div>
+
+            <div class="score-row">
+              <span class="score-label">ANOMALY SCORE</span>
+              <span class="score-value" id="score-anomaly">—</span>
+            </div>
+            <div class="score-bar-wrap">
+              <div class="score-bar" id="bar-anomaly" style="background: var(--green);"></div>
+            </div>
+
+            <div class="score-row">
+              <span class="score-label">FINAL RISK (60% + 40%)</span>
+              <span class="score-value" id="score-final">—</span>
+            </div>
+            <div class="score-bar-wrap">
+              <div class="score-bar" id="bar-final" style="background: linear-gradient(90deg, var(--cyan), var(--orange));"></div>
+            </div>
+          </div>
+
+          <!-- SHAP Explanation -->
+          <div class="panel section-gap">
+            <div class="panel-title">AI Explanation (SHAP)</div>
+            <div id="shap-rows"></div>
+          </div>
+
+          <!-- Feature Contributions -->
+          <div class="panel">
+            <div class="panel-title">Anomaly Contributions</div>
+            <div id="contrib-rows"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 2: ALERT HISTORY -->
+  <div id="tab-history" class="tab-panel">
+    <div class="panel">
+      <div class="panel-title" style="justify-content:space-between;display:flex;align-items:center;">
+        <span style="display:flex;align-items:center;gap:0.5rem;">
+          <span style="width:3px;height:14px;background:var(--cyan);border-radius:2px;display:inline-block;box-shadow:0 0 6px var(--cyan);"></span>
+          Alert History
+        </span>
+        <button onclick="loadHistory()"
+          style="background:transparent;border:1px solid var(--border);color:var(--text2);
+                 padding:0.3rem 0.8rem;border-radius:4px;font-family:var(--mono);
+                 font-size:0.65rem;cursor:pointer;letter-spacing:1px;">
+          ↻ REFRESH
+        </button>
+      </div>
+      <div id="history-content">
+        <div class="empty-state">
+          <div class="empty-icon">◈</div>
+          <div>NO ALERTS YET</div>
+          <div style="margin-top:0.5rem;font-size:0.7rem;">Analyze transactions to generate alerts</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB 3: ANALYTICS -->
+  <div id="tab-analytics" class="tab-panel">
+
+    <!-- Stats row -->
+    <div class="grid-3 section-gap">
+      <div class="stat-card">
+        <div class="stat-number" id="stat-total">0</div>
+        <div class="stat-label">Total Analyzed</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color:var(--red)" id="stat-critical">0</div>
+        <div class="stat-label">Critical Alerts</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" style="color:var(--orange)" id="stat-high">0</div>
+        <div class="stat-label">High Risk</div>
+      </div>
+    </div>
+
+    <div class="grid-2">
+      <!-- Model Info -->
+      <div class="panel">
+        <div class="panel-title">Model Information</div>
+        <div id="model-info-rows">
+          <div class="empty-state" style="padding:1.5rem;">
+            <div class="loading-text">LOADING...</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Feature Weights -->
+      <div class="panel">
+        <div class="panel-title">Universal Anomaly Weights</div>
+        <div id="weight-rows">
+          <div class="empty-state" style="padding:1.5rem;">
+            <div class="loading-text">LOADING...</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /content -->
+
+<script>
+const API = 'http://localhost:5000';
+
+// ── Tab switching ────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    t.classList.toggle('active', ['checker','history','analytics'][i] === name);
+  });
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+
+  if (name === 'history')   loadHistory();
+  if (name === 'analytics') loadAnalytics();
+}
+
+// ── Load health on startup ───────────────────────────────────────
+async function loadHealth() {
+  try {
+    const r = await fetch(`${API}/api/health`);
+    const d = await r.json();
+    document.getElementById('hdr-model').textContent = d.model || '—';
+    document.getElementById('hdr-acc').textContent   = d.accuracy || '—';
+    document.getElementById('hdr-auc').textContent   = d.auc ? d.auc.toFixed(4) : '—';
+  } catch(e) {
+    document.getElementById('hdr-model').textContent = 'OFFLINE';
+  }
+}
+
+// ── Analyze transaction ──────────────────────────────────────────
+async function analyzeTransaction() {
+  const btn = document.getElementById('btn-analyze');
+  btn.disabled = true;
+
+  // Hide empty, show loading
+  document.getElementById('empty-panel').style.display    = 'none';
+  document.getElementById('loading-panel').style.display  = 'block';
+  document.getElementById('result-section').classList.remove('show');
+  document.getElementById('alert-banner').className       = 'alert-banner';
+
+  const payload = {
+    transaction_id:      document.getElementById('inp-txnid').value || `TXN-${Date.now()}`,
+    amount:              parseFloat(document.getElementById('inp-amount').value) || 100,
+    credential_anomaly:  parseInt(document.getElementById('sl-cred').value),
+    device_anomaly:      parseInt(document.getElementById('sl-dev').value),
+    temporal_anomaly:    parseInt(document.getElementById('sl-temp').value),
+    behavioral_anomaly:  parseInt(document.getElementById('sl-beh').value),
+    geospatial_anomaly:  parseInt(document.getElementById('sl-geo').value),
+  };
+
+  try {
+    const res  = await fetch(`${API}/api/predict`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      renderResult(data);
+    } else {
+      alert('Error: ' + (data.error || 'Unknown error'));
+    }
+  } catch(e) {
+    alert('Cannot connect to server. Make sure python app.py is running.');
+  } finally {
+    document.getElementById('loading-panel').style.display = 'none';
+    btn.disabled = false;
+  }
+}
+
+// ── Render result ────────────────────────────────────────────────
+function renderResult(data) {
+  const score = data.risk_score;
+  const level = data.risk_level;
+
+  // Show result section
+  document.getElementById('result-section').classList.add('show');
+
+  // Risk circle
+  const circumference = 2 * Math.PI * 80; // 502
+  const offset = circumference - (score / 100) * circumference;
+  const fill   = document.getElementById('risk-fill');
+  fill.style.strokeDashoffset = offset;
+
+  const colors = { LOW: '#00ff9d', MEDIUM: '#ffd600', HIGH: '#ff6b00', CRITICAL: '#ff2a2a' };
+  fill.style.stroke = colors[level] || '#00e5ff';
+
+  // Score number (animate)
+  animateNumber('risk-number', 0, Math.round(score), 1000);
+
+  // Badge
+  const badge = document.getElementById('risk-badge');
+  badge.textContent  = level;
+  badge.className    = 'risk-level-badge ' + level;
+
+  // Score breakdown bars
+  document.getElementById('score-model').textContent   = (data.fraud_probability || 0).toFixed(2) + '%';
+  document.getElementById('score-anomaly').textContent = (data.anomaly_score || 0).toFixed(2) + '%';
+  document.getElementById('score-final').textContent   = score.toFixed(2) + '%';
+
+  setTimeout(() => {
+    document.getElementById('bar-model').style.width   = Math.min(data.fraud_probability, 100) + '%';
+    document.getElementById('bar-anomaly').style.width = Math.min(data.anomaly_score, 100) + '%';
+    document.getElementById('bar-final').style.width   = Math.min(score, 100) + '%';
+  }, 100);
+
+  // SHAP explanation
+  renderShap(data.shap_explanation);
+
+  // Anomaly contributions
+  renderContributions(data.contributions);
+
+  // Alert banner
+  const banner = document.getElementById('alert-banner');
+  if (level === 'CRITICAL') {
+    banner.textContent  = '🚨 CRITICAL ALERT — Transaction flagged for immediate investigation. Alerts dispatched.';
+    banner.className    = 'alert-banner critical';
+  } else if (level === 'HIGH') {
+    banner.textContent  = '⚠️ HIGH RISK — Transaction flagged for manual review. Email alert sent.';
+    banner.className    = 'alert-banner high';
+  } else {
+    banner.className    = 'alert-banner';
+  }
+}
+
+// ── Render SHAP rows ─────────────────────────────────────────────
+function renderShap(shap) {
+  const container = document.getElementById('shap-rows');
+  if (!shap || (!shap.pushing_to_fraud?.length && !shap.pushing_to_legit?.length)) {
+    container.innerHTML = '<div class="empty-state" style="padding:1rem;">No SHAP data available</div>';
+    return;
+  }
+
+  const allRows = [
+    ...(shap.pushing_to_fraud || []).map(r => ({ ...r, dir: 'fraud' })),
+    ...(shap.pushing_to_legit || []).map(r => ({ ...r, dir: 'legit' })),
+  ];
+
+  const maxImpact = Math.max(...allRows.map(r => Math.abs(r.impact)));
+
+  container.innerHTML = allRows.map(row => {
+    const pct = maxImpact > 0 ? (Math.abs(row.impact) / maxImpact * 100) : 0;
+    const sign = row.dir === 'fraud' ? '+' : '';
+    return `
+      <div class="shap-row">
+        <div class="shap-feature">${row.feature}</div>
+        <div class="shap-bar-wrap">
+          <div class="shap-bar ${row.dir}" style="width:${pct}%"></div>
+        </div>
+        <div class="shap-val" style="color:${row.dir==='fraud'?'var(--red)':'var(--green)'}">
+          ${sign}${row.impact.toFixed(2)}%
+        </div>
+        <div class="shap-dir ${row.dir}">
+          ${row.dir === 'fraud' ? '→ FRAUD' : '→ LEGIT'}
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── Render contributions ─────────────────────────────────────────
+function renderContributions(contribs) {
+  const container = document.getElementById('contrib-rows');
+  if (!contribs) { container.innerHTML = ''; return; }
+
+  const sorted = Object.entries(contribs).sort((a,b) => b[1] - a[1]);
+
+  container.innerHTML = sorted.map(([key, val]) => `
+    <div class="contrib-row">
+      <div class="contrib-label">${key.replace(/_/g,' ').toUpperCase()}</div>
+      <div class="contrib-bar-wrap">
+        <div class="contrib-bar" style="width:${val}%"></div>
+      </div>
+      <div class="contrib-pct">${val.toFixed(1)}%</div>
+    </div>`).join('');
+}
+
+// ── Load alert history ───────────────────────────────────────────
+async function loadHistory() {
+  try {
+    const res  = await fetch(`${API}/api/alerts/history`);
+    const data = await res.json();
+    const container = document.getElementById('history-content');
+
+    if (!data.alerts || data.alerts.length === 0) {
+      container.innerHTML = `
+        <div class="empty-state">
+          <div class="empty-icon">◈</div>
+          <div>NO ALERTS YET</div>
+          <div style="margin-top:0.5rem;font-size:0.7rem;">Analyze transactions to generate alerts</div>
+        </div>`;
+      return;
+    }
+
+    container.innerHTML = `
+      <table class="alert-table">
+        <thead>
+          <tr>
+            <th>Timestamp</th>
+            <th>Transaction ID</th>
+            <th>Risk Score</th>
+            <th>Level</th>
+            <th>Email</th>
+            <th>SMS</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.alerts.map(a => `
+            <tr>
+              <td>${a.timestamp}</td>
+              <td style="color:var(--cyan)">${a.transaction_id}</td>
+              <td style="color:var(--cyan)">${a.risk_score}/100</td>
+              <td><span class="level-tag ${a.risk_level}">${a.risk_level}</span></td>
+              <td>${a.email_sent ? '✅' : '—'}</td>
+              <td>${a.sms_sent   ? '✅' : '—'}</td>
+            </tr>`).join('')}
+        </tbody>
+      </table>`;
+  } catch(e) {
+    document.getElementById('history-content').innerHTML =
+      '<div class="empty-state">Cannot connect to server</div>';
+  }
+}
+
+// ── Load analytics ───────────────────────────────────────────────
+async function loadAnalytics() {
+  try {
+    // Model info
+    const mr   = await fetch(`${API}/api/analytics/model`);
+    const mdata = await mr.json();
+
+    if (mdata.success) {
+      document.getElementById('model-info-rows').innerHTML = `
+        <div class="score-row"><span class="score-label">MODEL TYPE</span>
+          <span class="score-value">${mdata.model_type}</span></div>
+        <div class="score-row"><span class="score-label">ACCURACY</span>
+          <span class="score-value">${mdata.accuracy}%</span></div>
+        <div class="score-row"><span class="score-label">AUC-ROC</span>
+          <span class="score-value">${mdata.auc}</span></div>
+        <div class="score-row"><span class="score-label">TRAINING SAMPLES</span>
+          <span class="score-value">${(mdata.fraud_rate * 100).toFixed(2)}% fraud rate</span></div>
+        <div class="divider"></div>
+        <div class="score-row"><span class="score-label">CRITICAL THRESHOLD</span>
+          <span class="score-value">>= ${mdata.thresholds?.critical?.toFixed(2) || '—'}</span></div>
+        <div class="score-row"><span class="score-label">HIGH THRESHOLD</span>
+          <span class="score-value">>= ${mdata.thresholds?.high?.toFixed(2) || '—'}</span></div>
+        <div class="score-row"><span class="score-label">MEDIUM THRESHOLD</span>
+          <span class="score-value">>= ${mdata.thresholds?.medium?.toFixed(2) || '—'}</span></div>`;
+
+      // Feature weights
+      const weights = mdata.feature_weights || {};
+      const sorted  = Object.entries(weights).sort((a,b) => b[1]-a[1]);
+      document.getElementById('weight-rows').innerHTML = sorted.map(([k, v]) => `
+        <div class="contrib-row">
+          <div class="contrib-label">${k.replace('_anomaly','').replace(/_/g,' ').toUpperCase()}</div>
+          <div class="contrib-bar-wrap">
+            <div class="contrib-bar" style="width:${(v*100).toFixed(1)}%"></div>
+          </div>
+          <div class="contrib-pct">${(v*100).toFixed(1)}%</div>
+        </div>`).join('');
+    }
+
+    // Summary stats
+    const sr   = await fetch(`${API}/api/analytics/summary`);
+    const sdata = await sr.json();
+    if (sdata.success) {
+      document.getElementById('stat-total').textContent    = sdata.total_checked;
+      document.getElementById('stat-critical').textContent = sdata.by_level?.CRITICAL || 0;
+      document.getElementById('stat-high').textContent     = sdata.by_level?.HIGH || 0;
+    }
+
+  } catch(e) {
+    document.getElementById('model-info-rows').innerHTML =
+      '<div class="empty-state">Cannot connect to server</div>';
+  }
+}
+
+// ── Utility: animate number ──────────────────────────────────────
+function animateNumber(id, from, to, duration) {
+  const el    = document.getElementById(id);
+  const start = performance.now();
+  function step(now) {
+    const p = Math.min((now - start) / duration, 1);
+    el.textContent = Math.round(from + (to - from) * p);
+    if (p < 1) requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+}
+
+// ── Init ─────────────────────────────────────────────────────────
+loadHealth();
+</script>
+</body>
+</html>

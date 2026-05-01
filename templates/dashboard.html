@@ -1,0 +1,2514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CyberShield — Personal Cybercrime Protection</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --white:    #FFFFFF;
+  --bg:       #F0F7F7;
+  --bg2:      #E8F4F4;
+  --teal:     #0D7377;
+  --teal2:    #14ACAC;
+  --teal3:    #E0F5F5;
+  --green:    #2ECC71;
+  --amber:    #F39C12;
+  --red:      #E74C3C;
+  --text:     #2C3E50;
+  --text2:    #7F8C8D;
+  --border:   #D5E8E8;
+  --shadow:   0 2px 16px rgba(13,115,119,0.08);
+  --shadow2:  0 4px 32px rgba(13,115,119,0.14);
+  --sans:     'DM Sans', sans-serif;
+  --mono:     'DM Mono', monospace;
+  --radius:   14px;
+}
+
+* { margin:0; padding:0; box-sizing:border-box; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  min-height: 100vh;
+}
+
+/* ── PAGES ──────────────────────────────────────────────────────── */
+.page { display: none; min-height: 100vh; }
+.page.active { display: flex; flex-direction: column; }
+
+/* ══════════════════════════════════════════════════════════════════
+   LOGIN PAGE
+══════════════════════════════════════════════════════════════════ */
+#page-login {
+  background: linear-gradient(135deg, #0D7377 0%, #14ACAC 50%, #2ECC71 100%);
+  align-items: center;
+  justify-content: center;
+  padding: 2rem;
+}
+
+.login-card {
+  background: white;
+  border-radius: 24px;
+  padding: 3rem 2.5rem;
+  width: 100%;
+  max-width: 440px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+  animation: fadeUp 0.5s ease;
+}
+
+@keyframes fadeUp {
+  from { opacity:0; transform: translateY(20px); }
+  to   { opacity:1; transform: translateY(0); }
+}
+
+.login-logo {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.login-logo-icon {
+  width: 64px; height: 64px;
+  background: linear-gradient(135deg, #0D7377, #14ACAC);
+  border-radius: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  box-shadow: 0 8px 24px rgba(13,115,119,0.3);
+}
+
+.login-logo h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--teal);
+  letter-spacing: -0.5px;
+}
+
+.login-logo p {
+  color: var(--text2);
+  font-size: 0.9rem;
+  margin-top: 0.25rem;
+}
+
+.form-group {
+  margin-bottom: 1.25rem;
+}
+
+.form-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  color: var(--text);
+  background: white;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-input:focus {
+  border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(13,115,119,0.1);
+}
+
+.btn-primary {
+  width: 100%;
+  padding: 1rem;
+  background: linear-gradient(135deg, #0D7377, #14ACAC);
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--sans);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 16px rgba(13,115,119,0.3);
+}
+
+.btn-primary:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(13,115,119,0.4);
+}
+
+.btn-primary:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.btn-secondary {
+  background: transparent;
+  border: 2px solid var(--border);
+  color: var(--text2);
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  font-family: var(--sans);
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.otp-inputs {
+  display: flex;
+  gap: 0.6rem;
+  justify-content: center;
+  margin: 1.25rem 0;
+}
+
+.otp-box {
+  width: 52px; height: 58px;
+  text-align: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  font-family: var(--mono);
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  outline: none;
+  color: var(--teal);
+  transition: border-color 0.2s;
+  background: var(--teal3);
+}
+
+.otp-box:focus { border-color: var(--teal); }
+
+.demo-otp-note {
+  background: #FFF9E6;
+  border: 1px solid #F39C12;
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 0.82rem;
+  color: #856404;
+  margin-bottom: 1rem;
+  display: none;
+}
+
+.form-error {
+  color: var(--red);
+  font-size: 0.82rem;
+  margin-top: 0.5rem;
+  display: none;
+}
+
+.divider-text {
+  text-align: center;
+  color: var(--text2);
+  font-size: 0.8rem;
+  margin: 1rem 0;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   MAIN APP LAYOUT
+══════════════════════════════════════════════════════════════════ */
+#page-app {
+  flex-direction: column;
+}
+
+/* ── TOP NAV ────────────────────────────────────────────────────── */
+.topnav {
+  background: white;
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: var(--shadow);
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: var(--teal);
+}
+
+.nav-logo-dot {
+  width: 32px; height: 32px;
+  background: linear-gradient(135deg, #0D7377, #14ACAC);
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+}
+
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.nav-user {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.88rem;
+  color: var(--text2);
+}
+
+.nav-avatar {
+  width: 34px; height: 34px;
+  background: var(--teal3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  color: var(--teal);
+  border: 2px solid var(--border);
+}
+
+.nav-tabs {
+  display: flex;
+  gap: 0;
+}
+
+.nav-tab {
+  padding: 0 1.25rem;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  font-size: 0.88rem;
+  font-weight: 500;
+  color: var(--text2);
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.2s;
+  gap: 0.4rem;
+}
+
+.nav-tab:hover { color: var(--teal); }
+.nav-tab.active {
+  color: var(--teal);
+  border-bottom-color: var(--teal);
+  font-weight: 600;
+}
+
+.logout-btn {
+  padding: 0.45rem 1rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: transparent;
+  color: var(--text2);
+  font-family: var(--sans);
+  font-size: 0.82rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logout-btn:hover { border-color: var(--red); color: var(--red); }
+
+/* ── MAIN AREA ──────────────────────────────────────────────────── */
+.main-area {
+  flex: 1;
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+.tab-content { display: none; }
+.tab-content.active { display: block; }
+
+/* ── SECTION HEADER ─────────────────────────────────────────────── */
+.section-header {
+  margin-bottom: 2rem;
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--text);
+  letter-spacing: -0.5px;
+}
+
+.section-sub {
+  color: var(--text2);
+  font-size: 0.92rem;
+  margin-top: 0.3rem;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   CHECK TAB — CRIME SELECTION
+══════════════════════════════════════════════════════════════════ */
+.crime-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+@media (max-width: 768px) {
+  .crime-grid { grid-template-columns: 1fr 1fr; }
+}
+
+.crime-card {
+  background: white;
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.75rem 1.5rem;
+  cursor: pointer;
+  transition: all 0.25s;
+  text-align: center;
+  box-shadow: var(--shadow);
+  position: relative;
+  overflow: hidden;
+}
+
+.crime-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--teal), var(--teal2));
+  transform: scaleX(0);
+  transition: transform 0.3s;
+}
+
+.crime-card:hover {
+  border-color: var(--teal);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow2);
+}
+
+.crime-card:hover::before { transform: scaleX(1); }
+
+.crime-card.selected {
+  border-color: var(--teal);
+  background: var(--teal3);
+}
+
+.crime-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.75rem;
+  display: block;
+}
+
+.crime-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 0.35rem;
+}
+
+.crime-desc {
+  font-size: 0.78rem;
+  color: var(--text2);
+  line-height: 1.4;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   QUESTION FLOW
+══════════════════════════════════════════════════════════════════ */
+#question-flow { display: none; }
+
+.flow-header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.flow-back {
+  width: 38px; height: 38px;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  background: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.flow-back:hover { border-color: var(--teal); color: var(--teal); }
+
+.progress-wrap {
+  flex: 1;
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal), var(--teal2));
+  border-radius: 3px;
+  transition: width 0.4s ease;
+}
+
+.progress-label {
+  font-size: 0.8rem;
+  color: var(--text2);
+  white-space: nowrap;
+  font-family: var(--mono);
+}
+
+.question-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  max-width: 680px;
+  margin: 0 auto;
+  animation: fadeUp 0.3s ease;
+}
+
+.q-crime-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: var(--teal3);
+  color: var(--teal);
+  padding: 0.35rem 0.9rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.q-text {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.5;
+  margin-bottom: 0.6rem;
+}
+
+.q-hint {
+  font-size: 0.85rem;
+  color: var(--text2);
+  margin-bottom: 1.75rem;
+  line-height: 1.5;
+}
+
+.q-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.q-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+  text-align: left;
+}
+
+.q-option:hover {
+  border-color: var(--teal);
+  background: var(--teal3);
+}
+
+.q-option.selected {
+  border-color: var(--teal);
+  background: var(--teal3);
+}
+
+.q-option-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+}
+
+.q-option-text {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.q-option-sub {
+  font-size: 0.78rem;
+  color: var(--text2);
+  margin-top: 0.15rem;
+}
+
+.q-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.btn-next {
+  padding: 0.75rem 2rem;
+  background: linear-gradient(135deg, var(--teal), var(--teal2));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 12px rgba(13,115,119,0.25);
+}
+
+.btn-next:hover { transform: translateY(-1px); }
+.btn-next:disabled { opacity: 0.4; cursor: not-allowed; transform: none; }
+
+/* Optional text input inside question */
+.q-text-input {
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border: 2px solid var(--border);
+  border-radius: 10px;
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-top: 0.5rem;
+}
+
+.q-text-input:focus { border-color: var(--teal); }
+
+/* ══════════════════════════════════════════════════════════════════
+   ANALYZING SCREEN
+══════════════════════════════════════════════════════════════════ */
+#analyzing-screen {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+
+.analyzing-ring {
+  width: 100px; height: 100px;
+  border: 4px solid var(--teal3);
+  border-top-color: var(--teal);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 2rem;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.analyzing-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+}
+
+.analyzing-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: 1.5rem;
+  text-align: left;
+}
+
+.analyzing-step {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+  color: var(--text2);
+  opacity: 0;
+  animation: fadeIn 0.5s ease forwards;
+}
+
+@keyframes fadeIn { to { opacity: 1; } }
+
+.step-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: var(--teal);
+  flex-shrink: 0;
+  box-shadow: 0 0 6px rgba(13,115,119,0.5);
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   RESULT SCREEN
+══════════════════════════════════════════════════════════════════ */
+#result-screen { display: none; }
+
+.result-top {
+  border-radius: var(--radius);
+  padding: 2.5rem;
+  margin-bottom: 1.5rem;
+  color: white;
+  position: relative;
+  overflow: hidden;
+  animation: fadeUp 0.4s ease;
+}
+
+.result-top.LOW      { background: linear-gradient(135deg, #27AE60, #2ECC71); }
+.result-top.MEDIUM   { background: linear-gradient(135deg, #E67E22, #F39C12); }
+.result-top.HIGH     { background: linear-gradient(135deg, #D35400, #E74C3C); }
+.result-top.CRITICAL { background: linear-gradient(135deg, #C0392B, #E74C3C); animation: pulseRed 2s infinite; }
+
+@keyframes pulseRed {
+  0%,100% { box-shadow: 0 0 0 0 rgba(231,76,60,0.4); }
+  50%     { box-shadow: 0 0 0 12px rgba(231,76,60,0); }
+}
+
+.result-level-icon { font-size: 3rem; margin-bottom: 0.75rem; display: block; }
+.result-level-text { font-size: 0.85rem; opacity: 0.85; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+.result-title { font-size: 1.6rem; font-weight: 800; margin: 0.35rem 0 0.75rem; line-height: 1.2; }
+.result-score-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background: rgba(255,255,255,0.2);
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-family: var(--mono);
+  font-size: 0.9rem;
+}
+
+.result-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+@media (max-width: 600px) { .result-grid { grid-template-columns: 1fr; } }
+
+.result-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.result-card-title {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Warning signs */
+.warning-list { display: flex; flex-direction: column; gap: 0.75rem; }
+
+.warning-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  background: #FFF8F0;
+  border-radius: 8px;
+  border-left: 3px solid var(--amber);
+}
+
+.warning-item.critical { background: #FFF0F0; border-left-color: var(--red); }
+.warning-item.safe     { background: #F0FFF6; border-left-color: var(--green); }
+
+.warning-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
+
+.warning-text {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+
+.warning-sub {
+  font-size: 0.78rem;
+  color: var(--text2);
+  margin-top: 0.2rem;
+}
+
+/* Anomaly bars */
+.anomaly-bar-row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.anomaly-label {
+  font-size: 0.78rem;
+  color: var(--text2);
+  width: 110px;
+  flex-shrink: 0;
+}
+
+.anomaly-bar-wrap {
+  flex: 1;
+  height: 8px;
+  background: var(--bg2);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.anomaly-bar-fill {
+  height: 100%;
+  border-radius: 4px;
+  background: linear-gradient(90deg, var(--teal), var(--teal2));
+  width: 0%;
+  transition: width 1s ease;
+}
+
+.anomaly-val {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--teal);
+  width: 30px;
+  text-align: right;
+}
+
+/* SHAP rows */
+.shap-item {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+  background: var(--bg);
+}
+
+.shap-name { font-size: 0.82rem; flex: 1; color: var(--text); font-weight: 500; }
+.shap-impact { font-family: var(--mono); font-size: 0.78rem; width: 60px; text-align: right; }
+.shap-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  white-space: nowrap;
+}
+.shap-badge.fraud { background: #FDECEA; color: var(--red); }
+.shap-badge.legit { background: #E8F8EE; color: var(--green); }
+
+/* ── ACTION BUTTONS ─────────────────────────────────────────────── */
+.action-section {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  margin-bottom: 1.5rem;
+}
+
+.action-title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 1.25rem;
+}
+
+.action-buttons {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 0.85rem;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem 1.25rem;
+  border-radius: 10px;
+  border: 2px solid;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 0.9rem;
+  font-weight: 600;
+  transition: all 0.2s;
+  text-decoration: none;
+  background: white;
+}
+
+.action-btn.danger {
+  border-color: var(--red);
+  color: var(--red);
+}
+.action-btn.danger:hover {
+  background: var(--red);
+  color: white;
+}
+
+.action-btn.warning {
+  border-color: var(--amber);
+  color: #B7750D;
+}
+.action-btn.warning:hover {
+  background: var(--amber);
+  color: white;
+}
+
+.action-btn.safe {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+.action-btn.safe:hover {
+  background: var(--teal);
+  color: white;
+}
+
+.action-btn.neutral {
+  border-color: var(--border);
+  color: var(--text2);
+}
+.action-btn.neutral:hover {
+  border-color: var(--teal);
+  color: var(--teal);
+}
+
+.action-icon { font-size: 1.3rem; flex-shrink: 0; }
+
+.action-btn-text { font-size: 0.82rem; }
+.action-btn-sub  { font-size: 0.72rem; opacity: 0.7; }
+
+.btn-check-again {
+  width: 100%;
+  padding: 1rem;
+  background: transparent;
+  border: 2px solid var(--teal);
+  border-radius: 10px;
+  color: var(--teal);
+  font-family: var(--sans);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 1rem;
+}
+.btn-check-again:hover { background: var(--teal); color: white; }
+
+/* ══════════════════════════════════════════════════════════════════
+   HISTORY TAB
+══════════════════════════════════════════════════════════════════ */
+.stats-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+.stat-box {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.stat-num {
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--teal);
+  line-height: 1;
+  font-family: var(--mono);
+}
+
+.stat-lbl {
+  font-size: 0.78rem;
+  color: var(--text2);
+  margin-top: 0.4rem;
+  font-weight: 500;
+}
+
+.history-table-wrap {
+  background: white;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.history-table-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-table-title {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.85rem;
+}
+
+.history-table th {
+  padding: 0.75rem 1.25rem;
+  text-align: left;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: var(--text2);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.history-table td {
+  padding: 1rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  vertical-align: middle;
+}
+
+.history-table tr:last-child td { border-bottom: none; }
+.history-table tr:hover td { background: var(--teal3); }
+
+.level-badge {
+  display: inline-block;
+  padding: 0.25rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+}
+
+.level-badge.LOW      { background: #E8F8EE; color: #27AE60; }
+.level-badge.MEDIUM   { background: #FFF5E0; color: #E67E22; }
+.level-badge.HIGH     { background: #FFF0E0; color: #D35400; }
+.level-badge.CRITICAL { background: #FDECEA; color: var(--red); }
+
+.crime-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+/* ══════════════════════════════════════════════════════════════════
+   RESOURCES TAB
+══════════════════════════════════════════════════════════════════ */
+.resource-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.25rem;
+}
+
+@media (max-width: 600px) { .resource-grid { grid-template-columns: 1fr; } }
+
+.resource-card {
+  background: white;
+  border-radius: var(--radius);
+  padding: 1.75rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.resource-icon { font-size: 2rem; margin-bottom: 0.75rem; display: block; }
+.resource-title { font-weight: 700; font-size: 1rem; color: var(--text); margin-bottom: 0.4rem; }
+.resource-desc  { font-size: 0.85rem; color: var(--text2); line-height: 1.5; margin-bottom: 1rem; }
+
+.resource-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--teal);
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  border-bottom: 2px solid transparent;
+  transition: border-color 0.2s;
+}
+
+.resource-link:hover { border-bottom-color: var(--teal); }
+
+.helpline-big {
+  background: linear-gradient(135deg, var(--teal), var(--teal2));
+  color: white;
+  border-radius: var(--radius);
+  padding: 2rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.helpline-num {
+  font-size: 3rem;
+  font-weight: 800;
+  font-family: var(--mono);
+  letter-spacing: 4px;
+  margin: 0.5rem 0;
+}
+
+.helpline-label {
+  font-size: 0.85rem;
+  opacity: 0.85;
+}
+
+/* ── MISC ────────────────────────────────────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 3rem;
+  color: var(--text2);
+}
+
+.empty-icon { font-size: 3rem; margin-bottom: 1rem; opacity: 0.4; display: block; }
+
+.toast {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  background: var(--teal);
+  color: white;
+  padding: 0.85rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 500;
+  box-shadow: var(--shadow2);
+  z-index: 9999;
+  display: none;
+  animation: fadeUp 0.3s ease;
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════
+     LOGIN PAGE
+══════════════════════════════════════════════════════════════════ -->
+<div id="page-login" class="page active">
+  <div class="login-card">
+
+    <!-- Step 1: Enter email + name -->
+    <div id="login-step1">
+      <div class="login-logo">
+        <div class="login-logo-icon">🛡️</div>
+        <h1>CyberShield</h1>
+        <p>Your personal cybercrime protection system</p>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Full Name</label>
+        <input type="text" id="inp-name" class="form-input" placeholder="Enter your name">
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Email Address</label>
+        <input type="email" id="inp-email" class="form-input" placeholder="you@example.com">
+        <div class="form-error" id="err-email">Please enter a valid email address</div>
+      </div>
+
+      <button class="btn-primary" id="btn-send-otp" onclick="sendOTP()">
+        Send OTP to Email
+      </button>
+
+      <div class="divider-text" style="margin-top:1rem">
+        A 6-digit OTP will be sent to your email
+      </div>
+    </div>
+
+    <!-- Step 2: Enter OTP -->
+    <div id="login-step2" style="display:none">
+      <div class="login-logo">
+        <div class="login-logo-icon">✉️</div>
+        <h1>Enter OTP</h1>
+        <p id="otp-sent-to">OTP sent to your email</p>
+      </div>
+
+      <div class="demo-otp-note" id="demo-otp-note">
+        📋 Demo mode: Your OTP is <strong id="demo-otp-val"></strong>
+      </div>
+
+      <div class="otp-inputs">
+        <input type="text" class="otp-box" id="otp0" maxlength="1" oninput="otpInput(0)">
+        <input type="text" class="otp-box" id="otp1" maxlength="1" oninput="otpInput(1)">
+        <input type="text" class="otp-box" id="otp2" maxlength="1" oninput="otpInput(2)">
+        <input type="text" class="otp-box" id="otp3" maxlength="1" oninput="otpInput(3)">
+        <input type="text" class="otp-box" id="otp4" maxlength="1" oninput="otpInput(4)">
+        <input type="text" class="otp-box" id="otp5" maxlength="1" oninput="otpInput(5)">
+      </div>
+
+      <div class="form-error" id="err-otp">Invalid or expired OTP. Please try again.</div>
+
+      <button class="btn-primary" id="btn-verify-otp" onclick="verifyOTP()">
+        Verify & Login
+      </button>
+
+      <div style="text-align:center;margin-top:1rem">
+        <button class="btn-secondary" onclick="backToEmail()">← Change email</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════════
+     MAIN APP
+══════════════════════════════════════════════════════════════════ -->
+<div id="page-app" class="page">
+
+  <!-- TOP NAV -->
+  <nav class="topnav">
+    <div class="nav-logo">
+      <div class="nav-logo-dot">🛡️</div>
+      CyberShield
+    </div>
+
+    <div class="nav-tabs">
+      <div class="nav-tab active" onclick="switchTab('check')" id="ntab-check">🔍 Check Now</div>
+      <div class="nav-tab" onclick="switchTab('history')" id="ntab-history">📋 My History</div>
+      <div class="nav-tab" onclick="switchTab('resources')" id="ntab-resources">📚 Resources</div>
+    </div>
+
+    <div class="nav-right">
+      <div class="nav-user">
+        <div class="nav-avatar" id="nav-avatar">U</div>
+        <span id="nav-name">User</span>
+      </div>
+      <button class="logout-btn" onclick="logout()">Logout</button>
+    </div>
+  </nav>
+
+  <!-- MAIN AREA -->
+  <div class="main-area">
+
+    <!-- ── CHECK TAB ─────────────────────────────────────────────── -->
+    <div id="tab-check" class="tab-content active">
+
+      <!-- Crime selection -->
+      <div id="crime-selection">
+        <div class="section-header">
+          <div class="section-title">What happened to you?</div>
+          <div class="section-sub">Select the type of cybercrime you think you're facing</div>
+        </div>
+
+        <div class="crime-grid">
+          <div class="crime-card" onclick="selectCrime('upi_fraud')">
+            <span class="crime-icon">💸</span>
+            <div class="crime-name">UPI / Card Fraud</div>
+            <div class="crime-desc">Money deducted without your knowledge, unauthorized transactions</div>
+          </div>
+          <div class="crime-card" onclick="selectCrime('banking_fraud')">
+            <span class="crime-icon">🏦</span>
+            <div class="crime-name">Banking Fraud</div>
+            <div class="crime-desc">Net banking or mobile banking used without your permission</div>
+          </div>
+          <div class="crime-card" onclick="selectCrime('phishing')">
+            <span class="crime-icon">🎣</span>
+            <div class="crime-name">Phishing Link / SMS</div>
+            <div class="crime-desc">Suspicious link or message asking for OTP, password, or personal info</div>
+          </div>
+          <div class="crime-card" onclick="selectCrime('device_hack')">
+            <span class="crime-icon">📱</span>
+            <div class="crime-name">Device Hacked / Malware</div>
+            <div class="crime-desc">Unknown apps, strange behaviour, battery drain, unknown logins</div>
+          </div>
+          <div class="crime-card" onclick="selectCrime('identity_theft')">
+            <span class="crime-icon">🪪</span>
+            <div class="crime-name">Identity Theft</div>
+            <div class="crime-desc">Your documents misused, loan taken in your name, new accounts opened</div>
+          </div>
+          <div class="crime-card" onclick="selectCrime('sim_swap')">
+            <span class="crime-icon">📡</span>
+            <div class="crime-name">SIM Swap / Account Takeover</div>
+            <div class="crime-desc">Lost network suddenly, can't login, someone changed your password</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Question flow -->
+      <div id="question-flow">
+        <div class="flow-header">
+          <button class="flow-back" onclick="backToCrimes()">←</button>
+          <div class="progress-wrap">
+            <div class="progress-bar" id="q-progress"></div>
+          </div>
+          <div class="progress-label" id="q-step-label">1 / 5</div>
+        </div>
+
+        <div class="question-card" id="question-card">
+          <!-- Filled dynamically -->
+        </div>
+      </div>
+
+      <!-- Analyzing -->
+      <div id="analyzing-screen">
+        <div class="analyzing-ring"></div>
+        <div class="analyzing-title">Analyzing your situation...</div>
+        <div style="color:var(--text2);font-size:0.88rem">This will take just a moment</div>
+        <div class="analyzing-steps" id="analyzing-steps"></div>
+      </div>
+
+      <!-- Result -->
+      <div id="result-screen">
+        <!-- Filled dynamically -->
+      </div>
+
+    </div>
+
+    <!-- ── HISTORY TAB ────────────────────────────────────────────── -->
+    <div id="tab-history" class="tab-content">
+      <div class="section-header">
+        <div class="section-title">My Check History</div>
+        <div class="section-sub">All your past cybercrime checks</div>
+      </div>
+
+      <div class="stats-row">
+        <div class="stat-box">
+          <div class="stat-num" id="h-total">0</div>
+          <div class="stat-lbl">Total Checks</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" style="color:var(--red)" id="h-critical">0</div>
+          <div class="stat-lbl">Critical Alerts</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-num" style="color:var(--amber)" id="h-high">0</div>
+          <div class="stat-lbl">High Risk Checks</div>
+        </div>
+      </div>
+
+      <div class="history-table-wrap">
+        <div class="history-table-header">
+          <div class="history-table-title">Recent Checks</div>
+          <button onclick="loadHistory()" class="btn-secondary">↻ Refresh</button>
+        </div>
+        <div id="history-body">
+          <div class="empty-state">
+            <span class="empty-icon">📋</span>
+            No checks yet. Use "Check Now" to analyze a cybercrime incident.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── RESOURCES TAB ──────────────────────────────────────────── -->
+    <div id="tab-resources" class="tab-content">
+      <div class="section-header">
+        <div class="section-title">Safety Resources</div>
+        <div class="section-sub">Helplines, complaint portals, and cybersafety tips</div>
+      </div>
+
+      <div class="helpline-big">
+        <div class="helpline-label">National Cyber Crime Helpline</div>
+        <div class="helpline-num">1930</div>
+        <div class="helpline-label">Available 24×7 — Call immediately if you're a victim</div>
+      </div>
+
+      <div class="resource-grid">
+        <div class="resource-card">
+          <span class="resource-icon">🚨</span>
+          <div class="resource-title">File a Cyber Complaint</div>
+          <div class="resource-desc">Report cybercrime to the National Cyber Crime Reporting Portal. Available for financial fraud, harassment, and more.</div>
+          <a href="https://cybercrime.gov.in" target="_blank" class="resource-link">cybercrime.gov.in →</a>
+        </div>
+        <div class="resource-card">
+          <span class="resource-icon">🔐</span>
+          <div class="resource-title">Protect Your Accounts</div>
+          <div class="resource-desc">Enable 2FA on all accounts. Never share OTP with anyone. Use strong unique passwords for banking apps.</div>
+          <a href="https://staysafeonline.org" target="_blank" class="resource-link">Learn more →</a>
+        </div>
+        <div class="resource-card">
+          <span class="resource-icon">📱</span>
+          <div class="resource-title">UPI Fraud — What To Do</div>
+          <div class="resource-desc">Call your bank immediately. Block your UPI. File complaint on cybercrime.gov.in within 24 hours for best recovery chance.</div>
+          <a href="https://www.rbi.org.in" target="_blank" class="resource-link">RBI guidelines →</a>
+        </div>
+        <div class="resource-card">
+          <span class="resource-icon">🪪</span>
+          <div class="resource-title">Identity Theft Recovery</div>
+          <div class="resource-desc">File police FIR, notify UIDAI for Aadhaar misuse, contact banks to freeze fraudulent accounts opened in your name.</div>
+          <a href="https://uidai.gov.in" target="_blank" class="resource-link">UIDAI portal →</a>
+        </div>
+        <div class="resource-card">
+          <span class="resource-icon">⚠️</span>
+          <div class="resource-title">Recognize Phishing</div>
+          <div class="resource-desc">Legitimate banks never ask for OTP over call or SMS. Any urgent message asking for credentials is almost certainly a scam.</div>
+          <a href="https://www.cert-in.org.in" target="_blank" class="resource-link">CERT-In advisories →</a>
+        </div>
+        <div class="resource-card">
+          <span class="resource-icon">📞</span>
+          <div class="resource-title">Important Helplines</div>
+          <div class="resource-desc">
+            Cyber Crime: <strong>1930</strong><br>
+            TRAI (SIM issues): <strong>1800-110-420</strong><br>
+            RBI Ombudsman: <strong>14448</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"></div>
+
+<script>
+const API  = 'http://localhost:5000';
+let currentUser = null;
+let currentCrime = null;
+let answers = {};
+let currentQ = 0;
+let lastCheckId = null;
+
+// ═══════════════════════════════════════════════════════════════
+// CRIME QUESTION FLOWS
+// ═══════════════════════════════════════════════════════════════
+const CRIMES = {
+
+  upi_fraud: {
+    name: 'UPI / Card Fraud',
+    icon: '💸',
+    questions: [
+      {
+        text: 'How much money was involved?',
+        hint: 'Enter the transaction amount in rupees',
+        type: 'number',
+        key: 'amount',
+        placeholder: 'e.g. 5000'
+      },
+      {
+        text: 'Was this transaction done from a device you normally use?',
+        hint: 'A new or unrecognized device is a major red flag',
+        type: 'options',
+        key: 'device',
+        options: [
+          { label: 'Yes, my usual device', sub: 'Phone or computer I always use', value: 0, icon: '✅' },
+          { label: 'Unknown or new device', sub: 'Device I don\'t recognize', value: 3, icon: '⚠️' },
+          { label: 'Not sure', sub: 'I can\'t tell', value: 1, icon: '❓' }
+        ]
+      },
+      {
+        text: 'Was this transaction at an unusual time?',
+        hint: 'Transactions at odd hours (2 AM – 6 AM) are suspicious',
+        type: 'options',
+        key: 'temporal',
+        options: [
+          { label: 'Normal hours (9 AM – 9 PM)', sub: 'Regular time of day', value: 0, icon: '🌤️' },
+          { label: 'Late night or early morning', sub: '10 PM – 6 AM', value: 2, icon: '🌙' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      },
+      {
+        text: 'Was the amount much higher than your normal spending?',
+        hint: 'Unusually large amounts suggest account takeover',
+        type: 'options',
+        key: 'behavioral',
+        options: [
+          { label: 'Normal amount', sub: 'Similar to my usual transactions', value: 0, icon: '✅' },
+          { label: 'Unusually large amount', sub: 'Way more than I normally spend', value: 2, icon: '🚨' },
+          { label: 'Slightly unusual', sub: 'A bit more than normal', value: 1, icon: '⚠️' }
+        ]
+      },
+      {
+        text: 'Was the transaction to an unknown location or merchant?',
+        hint: 'Payments to unknown locations indicate geospatial anomaly',
+        type: 'options',
+        key: 'geospatial',
+        options: [
+          { label: 'Known location / merchant', sub: 'Place I\'ve transacted before', value: 0, icon: '✅' },
+          { label: 'Unknown or foreign location', sub: 'Never transacted here before', value: 3, icon: '🌍' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      }
+    ],
+    anomalyMap: (a) => ({
+      credential_anomaly:  1,
+      device_anomaly:      a.device    || 0,
+      temporal_anomaly:    a.temporal  || 0,
+      behavioral_anomaly:  a.behavioral|| 0,
+      geospatial_anomaly:  a.geospatial|| 0,
+      amount:              parseFloat(a.amount) || 100
+    })
+  },
+
+  banking_fraud: {
+    name: 'Banking Fraud',
+    icon: '🏦',
+    questions: [
+      {
+        text: 'Did you receive any login notifications you didn\'t initiate?',
+        hint: 'Banks send SMS or email alerts for new logins',
+        type: 'options',
+        key: 'credential',
+        options: [
+          { label: 'Yes, unknown login alert', sub: 'I got a login notification I didn\'t do', value: 3, icon: '🚨' },
+          { label: 'No, nothing unusual', sub: 'No alerts received', value: 0, icon: '✅' },
+          { label: 'Not sure / didn\'t check', sub: '', value: 1, icon: '❓' }
+        ]
+      },
+      {
+        text: 'Was the access from an unknown device or browser?',
+        hint: 'Banks show last login device — check for unknown devices',
+        type: 'options',
+        key: 'device',
+        options: [
+          { label: 'My usual device', sub: '', value: 0, icon: '✅' },
+          { label: 'Unknown device detected', sub: 'Unfamiliar device in login history', value: 3, icon: '⚠️' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      },
+      {
+        text: 'Did the suspicious activity happen at an odd time?',
+        hint: '',
+        type: 'options',
+        key: 'temporal',
+        options: [
+          { label: 'During normal hours', sub: '', value: 0, icon: '✅' },
+          { label: 'Late night or early morning', sub: '', value: 2, icon: '🌙' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      },
+      {
+        text: 'Was there any large or unusual transaction?',
+        hint: '',
+        type: 'options',
+        key: 'behavioral',
+        options: [
+          { label: 'Normal amounts', sub: '', value: 0, icon: '✅' },
+          { label: 'Large unexpected transactions', sub: '', value: 2, icon: '🚨' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      },
+      {
+        text: 'Was access from a different city or country?',
+        hint: '',
+        type: 'options',
+        key: 'geospatial',
+        options: [
+          { label: 'Same location as usual', sub: '', value: 0, icon: '✅' },
+          { label: 'Different city or country', sub: '', value: 3, icon: '🌍' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      }
+    ],
+    anomalyMap: (a) => ({
+      credential_anomaly:  a.credential  || 0,
+      device_anomaly:      a.device      || 0,
+      temporal_anomaly:    a.temporal    || 0,
+      behavioral_anomaly:  a.behavioral  || 0,
+      geospatial_anomaly:  a.geospatial  || 0,
+      amount:              500
+    })
+  },
+
+  phishing: {
+    name: 'Phishing Link / SMS',
+    icon: '🎣',
+    questions: [
+      {
+        text: 'Did the message ask for your OTP, password, or bank details?',
+        hint: 'Legitimate organizations NEVER ask for OTP over SMS or call',
+        type: 'options',
+        key: 'credential',
+        options: [
+          { label: 'Yes, asked for OTP or password', sub: 'Classic phishing sign', value: 3, icon: '🚨' },
+          { label: 'No, just a link', sub: 'No direct credential request', value: 1, icon: '⚠️' },
+          { label: 'No suspicious request', sub: '', value: 0, icon: '✅' }
+        ]
+      },
+      {
+        text: 'Did you click the link from a device you don\'t normally use?',
+        hint: '',
+        type: 'options',
+        key: 'device',
+        options: [
+          { label: 'My usual device', sub: '', value: 0, icon: '✅' },
+          { label: 'Different or new device', sub: '', value: 2, icon: '⚠️' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      },
+      {
+        text: 'Was the message received at an unusual time?',
+        hint: 'Phishing attacks often happen late at night to create panic',
+        type: 'options',
+        key: 'temporal',
+        options: [
+          { label: 'During normal hours', sub: '', value: 0, icon: '✅' },
+          { label: 'Late night or early morning', sub: '', value: 2, icon: '🌙' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      },
+      {
+        text: 'Did the message create urgency or fear?',
+        hint: '"Your account will be blocked in 2 hours" — classic scare tactic',
+        type: 'options',
+        key: 'behavioral',
+        options: [
+          { label: 'Yes — urgent or threatening', sub: '"Block", "Suspended", "Immediately"', value: 2, icon: '🚨' },
+          { label: 'Somewhat suspicious tone', sub: 'A bit pushy', value: 1, icon: '⚠️' },
+          { label: 'Normal, no urgency', sub: '', value: 0, icon: '✅' }
+        ]
+      },
+      {
+        text: 'Did the link go to an unknown or foreign website?',
+        hint: 'Phishing sites often use foreign domains or typosquatting',
+        type: 'options',
+        key: 'geospatial',
+        options: [
+          { label: 'Legitimate known website', sub: 'Official bank or company site', value: 0, icon: '✅' },
+          { label: 'Unknown or suspicious domain', sub: 'Misspelled or foreign domain', value: 3, icon: '🌍' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      }
+    ],
+    anomalyMap: (a) => ({
+      credential_anomaly:  a.credential  || 0,
+      device_anomaly:      a.device      || 0,
+      temporal_anomaly:    a.temporal    || 0,
+      behavioral_anomaly:  a.behavioral  || 0,
+      geospatial_anomaly:  a.geospatial  || 0,
+      amount:              0
+    })
+  },
+
+  device_hack: {
+    name: 'Device Hacked / Malware',
+    icon: '📱',
+    questions: [
+      {
+        text: 'Are there apps or accounts you don\'t recognize?',
+        hint: 'Unknown apps or new accounts are signs of compromise',
+        type: 'options',
+        key: 'credential',
+        options: [
+          { label: 'Yes — unknown apps or accounts', sub: 'I found things I didn\'t install', value: 3, icon: '🚨' },
+          { label: 'Not sure', sub: 'Haven\'t checked recently', value: 1, icon: '❓' },
+          { label: 'No, everything looks normal', sub: '', value: 0, icon: '✅' }
+        ]
+      },
+      {
+        text: 'Is your device behaving strangely?',
+        hint: 'Battery drain, slowness, unknown notifications are red flags',
+        type: 'options',
+        key: 'device',
+        options: [
+          { label: 'Yes — battery draining fast, device slow', sub: 'Unusual behavior started recently', value: 3, icon: '🚨' },
+          { label: 'Slightly unusual', sub: 'Minor changes noticed', value: 1, icon: '⚠️' },
+          { label: 'Working normally', sub: '', value: 0, icon: '✅' }
+        ]
+      },
+      {
+        text: 'Did this start at an unusual time or after installing something?',
+        hint: '',
+        type: 'options',
+        key: 'temporal',
+        options: [
+          { label: 'Started after installing an app', sub: 'From unofficial source', value: 2, icon: '⚠️' },
+          { label: 'Started late at night randomly', sub: '', value: 2, icon: '🌙' },
+          { label: 'Not sure when it started', sub: '', value: 1, icon: '❓' }
+        ]
+      },
+      {
+        text: 'Are you receiving OTPs or alerts you didn\'t request?',
+        hint: 'Unsolicited OTPs mean someone is trying to access your accounts',
+        type: 'options',
+        key: 'behavioral',
+        options: [
+          { label: 'Yes — getting OTPs I didn\'t request', sub: 'Someone is trying to login', value: 2, icon: '🚨' },
+          { label: 'Getting unusual notifications', sub: '', value: 1, icon: '⚠️' },
+          { label: 'Nothing unusual', sub: '', value: 0, icon: '✅' }
+        ]
+      },
+      {
+        text: 'Have you connected to unknown WiFi networks recently?',
+        hint: 'Public or unknown WiFi can be used to attack devices',
+        type: 'options',
+        key: 'geospatial',
+        options: [
+          { label: 'Yes — connected to unknown WiFi', sub: 'Airport, cafe, or unknown network', value: 2, icon: '⚠️' },
+          { label: 'Only my home/trusted network', sub: '', value: 0, icon: '✅' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      }
+    ],
+    anomalyMap: (a) => ({
+      credential_anomaly:  a.credential  || 0,
+      device_anomaly:      a.device      || 0,
+      temporal_anomaly:    a.temporal    || 0,
+      behavioral_anomaly:  a.behavioral  || 0,
+      geospatial_anomaly:  a.geospatial  || 0,
+      amount:              0
+    })
+  },
+
+  identity_theft: {
+    name: 'Identity Theft',
+    icon: '🪪',
+    questions: [
+      {
+        text: 'Were your documents (Aadhaar, PAN) misused without your knowledge?',
+        hint: 'Document misuse for loans, SIM cards, or accounts is identity theft',
+        type: 'options',
+        key: 'credential',
+        options: [
+          { label: 'Yes — documents used without my knowledge', sub: 'Loan, SIM, or account in my name', value: 3, icon: '🚨' },
+          { label: 'I suspect it but not confirmed', sub: '', value: 2, icon: '⚠️' },
+          { label: 'No, documents seem safe', sub: '', value: 0, icon: '✅' }
+        ]
+      },
+      {
+        text: 'Were you notified from an unknown location or device?',
+        hint: '',
+        type: 'options',
+        key: 'device',
+        options: [
+          { label: 'Yes — unknown device or location', sub: '', value: 2, icon: '⚠️' },
+          { label: 'No unusual devices', sub: '', value: 0, icon: '✅' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      },
+      {
+        text: 'Did this happen without your awareness (while you were away or sleeping)?',
+        hint: '',
+        type: 'options',
+        key: 'temporal',
+        options: [
+          { label: 'Yes — happened while I was unaware', sub: '', value: 2, icon: '🌙' },
+          { label: 'Not sure of timing', sub: '', value: 1, icon: '❓' },
+          { label: 'Happened when I was active', sub: '', value: 0, icon: '✅' }
+        ]
+      },
+      {
+        text: 'Were there large financial activities (loans, withdrawals) in your name?',
+        hint: '',
+        type: 'options',
+        key: 'behavioral',
+        options: [
+          { label: 'Yes — large loan or transaction', sub: 'I didn\'t take this loan or make this transaction', value: 2, icon: '🚨' },
+          { label: 'Small suspicious activity', sub: '', value: 1, icon: '⚠️' },
+          { label: 'No financial activity detected', sub: '', value: 0, icon: '✅' }
+        ]
+      },
+      {
+        text: 'Was the fraudulent activity from a different city or state?',
+        hint: '',
+        type: 'options',
+        key: 'geospatial',
+        options: [
+          { label: 'Yes — different city or state', sub: '', value: 3, icon: '🌍' },
+          { label: 'Same city, unknown person', sub: '', value: 1, icon: '⚠️' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      }
+    ],
+    anomalyMap: (a) => ({
+      credential_anomaly:  a.credential  || 0,
+      device_anomaly:      a.device      || 0,
+      temporal_anomaly:    a.temporal    || 0,
+      behavioral_anomaly:  a.behavioral  || 0,
+      geospatial_anomaly:  a.geospatial  || 0,
+      amount:              0
+    })
+  },
+
+  sim_swap: {
+    name: 'SIM Swap / Account Takeover',
+    icon: '📡',
+    questions: [
+      {
+        text: 'Did you suddenly lose mobile network without reason?',
+        hint: 'SIM swap victims suddenly lose all network — SIM deactivated by attacker',
+        type: 'options',
+        key: 'credential',
+        options: [
+          { label: 'Yes — suddenly no network', sub: 'My SIM stopped working', value: 3, icon: '🚨' },
+          { label: 'Network is fine', sub: '', value: 0, icon: '✅' },
+          { label: 'Intermittent issues', sub: 'Comes and goes', value: 1, icon: '⚠️' }
+        ]
+      },
+      {
+        text: 'Did someone else seem to have access to your accounts?',
+        hint: 'Receiving OTPs you didn\'t request, or being logged out suddenly',
+        type: 'options',
+        key: 'device',
+        options: [
+          { label: 'Yes — logged out or someone got access', sub: '', value: 3, icon: '🚨' },
+          { label: 'Suspicious but not confirmed', sub: '', value: 2, icon: '⚠️' },
+          { label: 'Nothing unusual', sub: '', value: 0, icon: '✅' }
+        ]
+      },
+      {
+        text: 'When did you notice the issue?',
+        hint: '',
+        type: 'options',
+        key: 'temporal',
+        options: [
+          { label: 'Late night or early morning', sub: 'SIM swaps often happen at odd hours', value: 2, icon: '🌙' },
+          { label: 'During normal hours', sub: '', value: 0, icon: '✅' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      },
+      {
+        text: 'Did you get any unusual calls asking for personal information?',
+        hint: 'Attackers often call pretending to be telecom support to gather info',
+        type: 'options',
+        key: 'behavioral',
+        options: [
+          { label: 'Yes — suspicious call before this happened', sub: '', value: 2, icon: '🚨' },
+          { label: 'No unusual calls', sub: '', value: 0, icon: '✅' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      },
+      {
+        text: 'Were transactions or account changes made from a different location?',
+        hint: '',
+        type: 'options',
+        key: 'geospatial',
+        options: [
+          { label: 'Yes — different city or location', sub: '', value: 3, icon: '🌍' },
+          { label: 'Same location', sub: '', value: 0, icon: '✅' },
+          { label: 'Not sure', sub: '', value: 1, icon: '❓' }
+        ]
+      }
+    ],
+    anomalyMap: (a) => ({
+      credential_anomaly:  a.credential  || 0,
+      device_anomaly:      a.device      || 0,
+      temporal_anomaly:    a.temporal    || 0,
+      behavioral_anomaly:  a.behavioral  || 0,
+      geospatial_anomaly:  a.geospatial  || 0,
+      amount:              0
+    })
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════
+// RESULT MESSAGES
+// ═══════════════════════════════════════════════════════════════
+const RESULT_MESSAGES = {
+  upi_fraud: {
+    LOW:      { title: 'Low Risk — Likely Genuine', icon: '✅', body: 'The transaction patterns appear normal. Monitor your account for any further activity.' },
+    MEDIUM:   { title: 'Suspicious Transaction Detected', icon: '⚠️', body: 'Some signals suggest this may be unauthorized. Review your recent transactions carefully.' },
+    HIGH:     { title: 'Likely Unauthorized Transaction', icon: '🚨', body: 'Strong indicators of fraud detected. Contact your bank immediately to dispute the transaction.' },
+    CRITICAL: { title: 'Critical: UPI Fraud Confirmed', icon: '🆘', body: 'Multiple fraud signals detected. Call your bank NOW, block your UPI, and call 1930 immediately.' }
+  },
+  banking_fraud: {
+    LOW:      { title: 'Low Risk', icon: '✅', body: 'No strong indicators of fraud. Continue monitoring your account.' },
+    MEDIUM:   { title: 'Suspicious Bank Activity', icon: '⚠️', body: 'Some unusual signals detected. Change your net banking password immediately.' },
+    HIGH:     { title: 'Probable Unauthorized Access', icon: '🚨', body: 'High risk of account compromise. Block net banking and call your bank immediately.' },
+    CRITICAL: { title: 'Critical: Account Takeover Detected', icon: '🆘', body: 'Your banking account may be compromised. Call your bank and 1930 right now.' }
+  },
+  phishing: {
+    LOW:      { title: 'Likely Safe', icon: '✅', body: 'The message appears genuine. No major red flags detected.' },
+    MEDIUM:   { title: 'Suspicious Message', icon: '⚠️', body: 'This message shows some phishing signs. Do not click any links or share information.' },
+    HIGH:     { title: 'Phishing Attack Suspected', icon: '🚨', body: 'Strong phishing indicators found. Do not interact with the link. Report the message to CERT-In.' },
+    CRITICAL: { title: 'Critical: Active Phishing Attack', icon: '🆘', body: 'You are under a phishing attack. If you clicked the link, change all passwords immediately and call 1930.' }
+  },
+  device_hack: {
+    LOW:      { title: 'Device Appears Safe', icon: '✅', body: 'No strong indicators of compromise. Keep your device updated.' },
+    MEDIUM:   { title: 'Suspicious Device Activity', icon: '⚠️', body: 'Some unusual behavior detected. Run a security scan and remove unknown apps.' },
+    HIGH:     { title: 'Device May Be Compromised', icon: '🚨', body: 'Strong signs of malware or hacking. Factory reset your device and change all passwords.' },
+    CRITICAL: { title: 'Critical: Device Hacked', icon: '🆘', body: 'Your device is likely compromised. Immediately disconnect from internet, factory reset, and call 1930.' }
+  },
+  identity_theft: {
+    LOW:      { title: 'Low Risk', icon: '✅', body: 'No strong identity theft indicators. Regularly check your CIBIL score and Aadhaar usage.' },
+    MEDIUM:   { title: 'Possible Identity Misuse', icon: '⚠️', body: 'Some indicators of document misuse. Check your Aadhaar usage history on UIDAI portal.' },
+    HIGH:     { title: 'Identity Theft Suspected', icon: '🚨', body: 'High risk of identity theft. File complaint on cybercrime.gov.in and notify UIDAI immediately.' },
+    CRITICAL: { title: 'Critical: Identity Theft Active', icon: '🆘', body: 'Your identity is being misused. File police FIR, lock your Aadhaar on UIDAI, call 1930 now.' }
+  },
+  sim_swap: {
+    LOW:      { title: 'SIM Appears Normal', icon: '✅', body: 'No strong SIM swap indicators. Monitor your network connectivity.' },
+    MEDIUM:   { title: 'Suspicious SIM Activity', icon: '⚠️', body: 'Some warning signs detected. Contact your telecom provider to verify recent SIM activity.' },
+    HIGH:     { title: 'Probable SIM Swap Attack', icon: '🚨', body: 'Strong SIM swap indicators. Call your telecom provider and bank immediately to block.' },
+    CRITICAL: { title: 'Critical: SIM Swap Detected', icon: '🆘', body: 'SIM swap attack highly likely. Visit your telecom store NOW with ID proof. Call 1930 immediately.' }
+  }
+};
+
+// ═══════════════════════════════════════════════════════════════
+// LOGIN
+// ═══════════════════════════════════════════════════════════════
+async function sendOTP() {
+  const name  = document.getElementById('inp-name').value.trim();
+  const email = document.getElementById('inp-email').value.trim();
+
+  if (!name) { showToast('Please enter your name'); return; }
+  if (!email || !email.includes('@')) {
+    document.getElementById('err-email').style.display = 'block';
+    return;
+  }
+  document.getElementById('err-email').style.display = 'none';
+
+  const btn = document.getElementById('btn-send-otp');
+  btn.disabled = true;
+  btn.textContent = 'Sending...';
+
+  try {
+    const res  = await fetch(`${API}/api/auth/send-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, name })
+    });
+    const data = await res.json();
+
+    document.getElementById('otp-sent-to').textContent = `OTP sent to ${email}`;
+
+    if (data.demo_otp) {
+      document.getElementById('demo-otp-note').style.display = 'block';
+      document.getElementById('demo-otp-val').textContent    = data.demo_otp;
+    }
+
+    document.getElementById('login-step1').style.display = 'none';
+    document.getElementById('login-step2').style.display = 'block';
+    document.getElementById('otp0').focus();
+  } catch(e) {
+    showToast('Cannot connect to server. Make sure python app.py is running.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Send OTP to Email';
+  }
+}
+
+function otpInput(idx) {
+  const val = document.getElementById(`otp${idx}`).value;
+  if (val && idx < 5) document.getElementById(`otp${idx+1}`).focus();
+}
+
+function getOTPValue() {
+  return [0,1,2,3,4,5].map(i => document.getElementById(`otp${i}`).value).join('');
+}
+
+async function verifyOTP() {
+  const email = document.getElementById('inp-email').value.trim();
+  const name  = document.getElementById('inp-name').value.trim();
+  const otp   = getOTPValue();
+
+  if (otp.length < 6) { showToast('Please enter all 6 digits'); return; }
+
+  const btn = document.getElementById('btn-verify-otp');
+  btn.disabled = true;
+  btn.textContent = 'Verifying...';
+
+  try {
+    const res  = await fetch(`${API}/api/auth/verify-otp`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ email, name, otp })
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      currentUser = data.user;
+      enterApp();
+    } else {
+      document.getElementById('err-otp').style.display = 'block';
+      document.getElementById('err-otp').textContent = data.error || 'Invalid OTP';
+    }
+  } catch(e) {
+    showToast('Server error. Please try again.');
+  } finally {
+    btn.disabled = false;
+    btn.textContent = 'Verify & Login';
+  }
+}
+
+function backToEmail() {
+  document.getElementById('login-step1').style.display = 'block';
+  document.getElementById('login-step2').style.display = 'none';
+}
+
+function enterApp() {
+  document.getElementById('page-login').classList.remove('active');
+  document.getElementById('page-app').classList.add('active');
+
+  const initials = currentUser.name.split(' ').map(n=>n[0]).join('').toUpperCase().slice(0,2);
+  document.getElementById('nav-avatar').textContent = initials;
+  document.getElementById('nav-name').textContent   = currentUser.name.split(' ')[0];
+}
+
+async function logout() {
+  await fetch(`${API}/api/auth/logout`, { method:'POST', credentials:'include' });
+  currentUser = null;
+  document.getElementById('page-app').classList.remove('active');
+  document.getElementById('page-login').classList.add('active');
+  document.getElementById('login-step1').style.display = 'block';
+  document.getElementById('login-step2').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TAB SWITCHING
+// ═══════════════════════════════════════════════════════════════
+function switchTab(name) {
+  ['check','history','resources'].forEach(t => {
+    document.getElementById(`tab-${t}`).classList.toggle('active', t === name);
+    document.getElementById(`ntab-${t}`).classList.toggle('active', t === name);
+  });
+  if (name === 'history') loadHistory();
+}
+
+// ═══════════════════════════════════════════════════════════════
+// CRIME SELECTION & QUESTION FLOW
+// ═══════════════════════════════════════════════════════════════
+function selectCrime(crimeKey) {
+  currentCrime = crimeKey;
+  answers      = {};
+  currentQ     = 0;
+
+  document.getElementById('crime-selection').style.display  = 'none';
+  document.getElementById('question-flow').style.display    = 'block';
+  document.getElementById('analyzing-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display    = 'none';
+
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const crime = CRIMES[currentCrime];
+  const q     = crime.questions[currentQ];
+  const total = crime.questions.length;
+
+  // Progress
+  document.getElementById('q-progress').style.width     = `${((currentQ+1)/total)*100}%`;
+  document.getElementById('q-step-label').textContent   = `${currentQ+1} / ${total}`;
+
+  let html = `
+    <div class="q-crime-badge">${crime.icon} ${crime.name}</div>
+    <div class="q-text">${q.text}</div>
+    <div class="q-hint">${q.hint || ''}</div>`;
+
+  if (q.type === 'options') {
+    html += `<div class="q-options">`;
+    q.options.forEach((opt, i) => {
+      html += `
+        <div class="q-option" id="opt-${i}" onclick="selectOption(${i}, ${opt.value}, '${q.key}')">
+          <span class="q-option-icon">${opt.icon}</span>
+          <div>
+            <div class="q-option-text">${opt.label}</div>
+            ${opt.sub ? `<div class="q-option-sub">${opt.sub}</div>` : ''}
+          </div>
+        </div>`;
+    });
+    html += `</div>`;
+  } else if (q.type === 'number') {
+    html += `
+      <input type="number" class="q-text-input" id="q-number-input"
+             placeholder="${q.placeholder || 'Enter amount'}"
+             value="${answers[q.key] || ''}"
+             oninput="answers['${q.key}']=this.value">`;
+  }
+
+  html += `
+    <div class="q-nav">
+      <button class="btn-secondary" onclick="prevQuestion()" ${currentQ===0?'disabled':''}>← Back</button>
+      <button class="btn-next" id="btn-qnext"
+              onclick="nextQuestion()" ${q.type==='options'&&!answers[q.key]&&answers[q.key]!==0?'disabled':''}>
+        ${currentQ === total-1 ? 'Analyze Now →' : 'Next →'}
+      </button>
+    </div>`;
+
+  document.getElementById('question-card').innerHTML = html;
+
+  // Re-highlight selected if going back
+  if (q.type === 'options' && (answers[q.key] !== undefined)) {
+    const crime2 = CRIMES[currentCrime];
+    const q2     = crime2.questions[currentQ];
+    q2.options.forEach((opt, i) => {
+      if (opt.value === answers[q.key]) {
+        document.getElementById(`opt-${i}`)?.classList.add('selected');
+      }
+    });
+  }
+}
+
+function selectOption(idx, value, key) {
+  document.querySelectorAll('.q-option').forEach(o => o.classList.remove('selected'));
+  document.getElementById(`opt-${idx}`).classList.add('selected');
+  answers[key] = value;
+  document.getElementById('btn-qnext').disabled = false;
+}
+
+function nextQuestion() {
+  const crime = CRIMES[currentCrime];
+  const q     = crime.questions[currentQ];
+
+  // Validate number input
+  if (q.type === 'number') {
+    const val = document.getElementById('q-number-input')?.value;
+    if (!val) { showToast('Please enter an amount'); return; }
+    answers[q.key] = parseFloat(val);
+  }
+
+  if (currentQ < crime.questions.length - 1) {
+    currentQ++;
+    renderQuestion();
+  } else {
+    startAnalysis();
+  }
+}
+
+function prevQuestion() {
+  if (currentQ > 0) {
+    currentQ--;
+    renderQuestion();
+  }
+}
+
+function backToCrimes() {
+  document.getElementById('crime-selection').style.display  = 'block';
+  document.getElementById('question-flow').style.display    = 'none';
+  document.getElementById('analyzing-screen').style.display = 'none';
+  document.getElementById('result-screen').style.display    = 'none';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ANALYSIS
+// ═══════════════════════════════════════════════════════════════
+async function startAnalysis() {
+  document.getElementById('question-flow').style.display    = 'none';
+  document.getElementById('analyzing-screen').style.display = 'flex';
+
+  const steps = [
+    'Checking credential anomaly signals...',
+    'Analyzing device fingerprint...',
+    'Evaluating temporal patterns...',
+    'Measuring behavioral deviation...',
+    'Assessing geospatial indicators...',
+    'Running ML risk model...'
+  ];
+
+  document.getElementById('analyzing-steps').innerHTML = steps.map((s,i) => `
+    <div class="analyzing-step" style="animation-delay:${i*0.4}s">
+      <div class="step-dot"></div>${s}
+    </div>`).join('');
+
+  // Wait for animation
+  await new Promise(r => setTimeout(r, steps.length * 400 + 600));
+
+  // Build payload
+  const crime   = CRIMES[currentCrime];
+  const payload = crime.anomalyMap(answers);
+  payload.transaction_id = `CS-${Date.now()}`;
+  payload.crime_type     = crime.name;
+
+  try {
+    const res  = await fetch(`${API}/api/predict`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify(payload)
+    });
+    const data = await res.json();
+
+    if (data.success) {
+      // Save to history
+      try {
+        const hr = await fetch(`${API}/api/history/save`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            crime_type:     crime.name,
+            risk_score:     data.risk_score,
+            risk_level:     data.risk_level,
+            anomaly_values: data.anomaly_values,
+            shap_summary:   data.shap_explanation,
+            transaction_id: payload.transaction_id
+          })
+        });
+        const hd = await hr.json();
+        lastCheckId = hd.check_id;
+      } catch(e) {}
+
+      renderResult(data, payload);
+    } else {
+      showToast('Analysis failed: ' + (data.error || 'Unknown error'));
+      backToCrimes();
+    }
+  } catch(e) {
+    showToast('Cannot connect to server');
+    backToCrimes();
+  }
+
+  document.getElementById('analyzing-screen').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// RENDER RESULT
+// ═══════════════════════════════════════════════════════════════
+function renderResult(data, payload) {
+  const level  = data.risk_level;
+  const score  = data.risk_score;
+  const crime  = CRIMES[currentCrime];
+  const msg    = RESULT_MESSAGES[currentCrime]?.[level] || { title: 'Analysis Complete', icon: '🔍', body: '' };
+
+  let html = `
+    <div class="result-top ${level}">
+      <span class="result-level-icon">${msg.icon}</span>
+      <div class="result-level-text">${level} RISK</div>
+      <div class="result-title">${msg.title}</div>
+      <div style="font-size:0.9rem;opacity:0.9;margin-bottom:0.75rem;line-height:1.5">${msg.body}</div>
+      <span class="result-score-pill">Risk Score: ${score.toFixed(0)} / 100</span>
+    </div>
+
+    <div class="result-grid">
+      <!-- Warning signs -->
+      <div class="result-card">
+        <div class="result-card-title">⚠️ Warning Signs Detected</div>
+        <div class="warning-list" id="warning-list"></div>
+      </div>
+
+      <!-- Anomaly breakdown -->
+      <div class="result-card">
+        <div class="result-card-title">📊 Signal Breakdown</div>
+        ${buildAnomalyBars(data.anomaly_values)}
+      </div>
+    </div>`;
+
+  // SHAP explanation if available
+  if (data.shap_explanation?.pushing_to_fraud?.length) {
+    html += `
+      <div class="result-card" style="margin-bottom:1.5rem">
+        <div class="result-card-title">🤖 AI Explanation — Why This Was Flagged</div>
+        <div id="shap-list"></div>
+      </div>`;
+  }
+
+  // Action buttons
+  const isHighRisk = ['HIGH','CRITICAL'].includes(level);
+  html += `
+    <div class="action-section">
+      <div class="action-title">
+        ${isHighRisk ? '🚨 Immediate Actions Recommended' : '📋 What You Can Do'}
+      </div>
+      <div class="action-buttons">
+        ${isHighRisk ? `
+        <a class="action-btn danger" href="tel:1930" onclick="logAction('called_1930')">
+          <span class="action-icon">📞</span>
+          <div>
+            <div class="action-btn-text">Call 1930</div>
+            <div class="action-btn-sub">National Cyber Helpline</div>
+          </div>
+        </a>` : ''}
+        <a class="action-btn warning" href="https://cybercrime.gov.in" target="_blank" onclick="logAction('filed_complaint')">
+          <span class="action-icon">📝</span>
+          <div>
+            <div class="action-btn-text">File Complaint</div>
+            <div class="action-btn-sub">cybercrime.gov.in</div>
+          </div>
+        </a>
+        <button class="action-btn safe" onclick="downloadReport(${JSON.stringify(data).replace(/"/g,'&quot;')}, '${level}', '${score}')">
+          <span class="action-icon">📄</span>
+          <div>
+            <div class="action-btn-text">Download Report</div>
+            <div class="action-btn-sub">Save as text file</div>
+          </div>
+        </button>
+        <button class="action-btn neutral" onclick="shareResult('${level}', '${score}', '${crime.name}')">
+          <span class="action-icon">📤</span>
+          <div>
+            <div class="action-btn-text">Share Alert</div>
+            <div class="action-btn-sub">Send to trusted contact</div>
+          </div>
+        </button>
+      </div>
+    </div>
+    <button class="btn-check-again" onclick="checkAgain()">🔍 Check Another Incident</button>`;
+
+  document.getElementById('result-screen').innerHTML = html;
+  document.getElementById('result-screen').style.display = 'block';
+
+  // Populate warning signs
+  populateWarnings(data, payload);
+
+  // Animate anomaly bars
+  setTimeout(() => {
+    document.querySelectorAll('.anomaly-bar-fill').forEach(b => {
+      b.style.width = b.dataset.width + '%';
+    });
+  }, 200);
+
+  // SHAP
+  if (data.shap_explanation?.pushing_to_fraud?.length) {
+    const shapList = document.getElementById('shap-list');
+    if (shapList) {
+      shapList.innerHTML = [
+        ...(data.shap_explanation.pushing_to_fraud||[]).map(r=>
+          `<div class="shap-item">
+            <div class="shap-name">${r.feature}</div>
+            <div class="shap-impact" style="color:var(--red)">+${r.impact.toFixed(1)}%</div>
+            <div class="shap-badge fraud">→ Increases Risk</div>
+           </div>`),
+        ...(data.shap_explanation.pushing_to_legit||[]).map(r=>
+          `<div class="shap-item">
+            <div class="shap-name">${r.feature}</div>
+            <div class="shap-impact" style="color:var(--green)">${r.impact.toFixed(1)}%</div>
+            <div class="shap-badge legit">→ Reduces Risk</div>
+           </div>`)
+      ].join('');
+    }
+  }
+}
+
+function buildAnomalyBars(vals) {
+  if (!vals) return '';
+  const labels = {
+    credential_anomaly: 'Credential',
+    device_anomaly:     'Device',
+    temporal_anomaly:   'Temporal',
+    behavioral_anomaly: 'Behavioral',
+    geospatial_anomaly: 'Geospatial'
+  };
+  const maxes = {
+    credential_anomaly: 3,
+    device_anomaly:     3,
+    temporal_anomaly:   2,
+    behavioral_anomaly: 2,
+    geospatial_anomaly: 3
+  };
+
+  return Object.entries(labels).map(([k, lbl]) => {
+    const v   = vals[k] || 0;
+    const max = maxes[k];
+    const pct = (v / max) * 100;
+    return `
+      <div class="anomaly-bar-row">
+        <div class="anomaly-label">${lbl}</div>
+        <div class="anomaly-bar-wrap">
+          <div class="anomaly-bar-fill" data-width="${pct}" style="width:0%"></div>
+        </div>
+        <div class="anomaly-val">${v}/${max}</div>
+      </div>`;
+  }).join('');
+}
+
+function populateWarnings(data, payload) {
+  const vals = data.anomaly_values || {};
+  const warnings = [];
+
+  const WARN_TEXT = {
+    credential_anomaly: {
+      high:   { text: 'Credential compromise detected', sub: 'Login credentials may have been stolen or misused' },
+      medium: { text: 'Unusual credential activity', sub: 'Suspicious access attempts detected' }
+    },
+    device_anomaly: {
+      high:   { text: 'Unknown device detected', sub: 'Access from an unrecognized device or browser' },
+      medium: { text: 'Slightly unusual device activity', sub: '' }
+    },
+    temporal_anomaly: {
+      high:   { text: 'Off-hours activity detected', sub: 'Activity between 2 AM and 6 AM is highly suspicious' },
+      medium: { text: 'Unusual time pattern', sub: 'Activity outside normal hours' }
+    },
+    behavioral_anomaly: {
+      high:   { text: 'Abnormal behavior detected', sub: 'Transaction amount or pattern far outside normal range' },
+      medium: { text: 'Slightly unusual behavior', sub: '' }
+    },
+    geospatial_anomaly: {
+      high:   { text: 'Foreign or unknown location', sub: 'Activity from a location inconsistent with your history' },
+      medium: { text: 'Unusual location signal', sub: '' }
+    }
+  };
+
+  Object.entries(vals).forEach(([k, v]) => {
+    if (v >= 2 && WARN_TEXT[k]) {
+      warnings.push({ ...WARN_TEXT[k].high, type: 'critical' });
+    } else if (v === 1 && WARN_TEXT[k]) {
+      warnings.push({ ...WARN_TEXT[k].medium, type: 'warning' });
+    }
+  });
+
+  if (warnings.length === 0) {
+    warnings.push({ text: 'No major warning signs found', sub: 'Activity appears normal', type: 'safe' });
+  }
+
+  const list = document.getElementById('warning-list');
+  if (list) {
+    list.innerHTML = warnings.slice(0,4).map(w => `
+      <div class="warning-item ${w.type}">
+        <span class="warning-icon">${w.type==='critical'?'🔴':w.type==='warning'?'🟡':'🟢'}</span>
+        <div>
+          <div class="warning-text">${w.text}</div>
+          ${w.sub ? `<div class="warning-sub">${w.sub}</div>` : ''}
+        </div>
+      </div>`).join('');
+  }
+}
+
+function checkAgain() {
+  currentCrime = null;
+  answers      = {};
+  currentQ     = 0;
+  document.getElementById('crime-selection').style.display  = 'block';
+  document.getElementById('question-flow').style.display    = 'none';
+  document.getElementById('result-screen').style.display    = 'none';
+  document.getElementById('analyzing-screen').style.display = 'none';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ACTIONS
+// ═══════════════════════════════════════════════════════════════
+async function logAction(action) {
+  if (!lastCheckId) return;
+  try {
+    await fetch(`${API}/api/history/actions`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
+      body: JSON.stringify({ check_id: lastCheckId, actions: [action] })
+    });
+  } catch(e) {}
+}
+
+function downloadReport(data, level, score) {
+  const crime = CRIMES[currentCrime];
+  const msg   = RESULT_MESSAGES[currentCrime]?.[level];
+  const txt   = `
+CYBERSHIELD RISK REPORT
+========================
+Date: ${new Date().toLocaleString()}
+User: ${currentUser?.name} (${currentUser?.email})
+
+INCIDENT TYPE: ${crime?.name}
+RISK LEVEL: ${level}
+RISK SCORE: ${score}/100
+
+RESULT: ${msg?.title}
+${msg?.body}
+
+SIGNAL BREAKDOWN:
+${Object.entries(data.anomaly_values||{}).map(([k,v])=>`  ${k}: ${v}`).join('\n')}
+
+RECOMMENDED ACTIONS:
+- Call National Cyber Helpline: 1930
+- File complaint: cybercrime.gov.in
+- Contact your bank immediately if financial fraud
+
+Generated by CyberShield
+`.trim();
+
+  const blob = new Blob([txt], { type: 'text/plain' });
+  const url  = URL.createObjectURL(blob);
+  const a    = document.createElement('a');
+  a.href     = url;
+  a.download = `CyberShield_Report_${Date.now()}.txt`;
+  a.click();
+  URL.revokeObjectURL(url);
+  logAction('downloaded_report');
+  showToast('Report downloaded!');
+}
+
+function shareResult(level, score, crimeName) {
+  const text = `🛡️ CyberShield Alert\n\nI just checked my situation:\n📋 Incident: ${crimeName}\n⚠️ Risk Level: ${level}\n📊 Risk Score: ${score}/100\n\nIf you're facing something similar, call 1930 immediately.\nCheck your safety at CyberShield.`;
+  if (navigator.share) {
+    navigator.share({ title: 'CyberShield Alert', text });
+  } else {
+    navigator.clipboard.writeText(text);
+    showToast('Alert copied to clipboard!');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// HISTORY
+// ═══════════════════════════════════════════════════════════════
+async function loadHistory() {
+  try {
+    const res  = await fetch(`${API}/api/history`, { credentials: 'include' });
+    const data = await res.json();
+
+    if (!data.success) return;
+
+    document.getElementById('h-total').textContent    = data.stats.total;
+    document.getElementById('h-critical').textContent = data.stats.critical;
+    document.getElementById('h-high').textContent     = data.stats.high;
+
+    if (!data.history.length) {
+      document.getElementById('history-body').innerHTML = `
+        <div class="empty-state">
+          <span class="empty-icon">📋</span>
+          No checks yet. Use "Check Now" to analyze a cybercrime incident.
+        </div>`;
+      return;
+    }
+
+    document.getElementById('history-body').innerHTML = `
+      <table class="history-table">
+        <thead>
+          <tr>
+            <th>Date & Time</th>
+            <th>Incident Type</th>
+            <th>Risk Level</th>
+            <th>Score</th>
+            <th>Actions Taken</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${data.history.map(h => `
+            <tr>
+              <td style="color:var(--text2);font-size:0.8rem;font-family:var(--mono)">
+                ${h.timestamp}
+              </td>
+              <td><div class="crime-tag">${h.crime_type}</div></td>
+              <td><span class="level-badge ${h.risk_level}">${h.risk_level}</span></td>
+              <td style="font-family:var(--mono);font-weight:600;color:var(--teal)">
+                ${h.risk_score?.toFixed(0)}/100
+              </td>
+              <td style="font-size:0.78rem;color:var(--text2)">
+                ${h.actions_taken?.length ? h.actions_taken.join(', ') : '—'}
+              </td>
+            </tr>`).join('')}
+        </tbody>
+      </table>`;
+  } catch(e) {
+    document.getElementById('history-body').innerHTML =
+      '<div class="empty-state">Cannot connect to server</div>';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// UTILITIES
+// ═══════════════════════════════════════════════════════════════
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => { t.style.display = 'none'; }, 3000);
+}
+
+// Auto-login check on load
+window.addEventListener('load', async () => {
+  try {
+    const res  = await fetch(`${API}/api/auth/me`, { credentials: 'include' });
+    const data = await res.json();
+    if (data.success) {
+      currentUser = data.user;
+      enterApp();
+    }
+  } catch(e) {}
+});
+</script>
+</body>
+</html>
