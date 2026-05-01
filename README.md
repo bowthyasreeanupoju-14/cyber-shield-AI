@@ -25,7 +25,7 @@ Currently in active development. Demo video coming soon.
 
 How to Run
 1. Clone the repository
-https://github.com/bowthyasreeanupoju-14-byte/Cybersheild.git
+https://github.com/bowthyasreeanupoju-14/cyber-shield-AI.git
 
 2. Install dependencies
 pip install -r requirements.txt
