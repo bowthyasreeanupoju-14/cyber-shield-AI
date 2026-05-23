@@ -4,9 +4,7 @@ Cyber Shield — Unified Cyber Risk Analyzer
 ![Status](https://img.shields.io/badge/Status-In%20Progress-orange)
 
 Overview
-Cyber Shield is a cybersecurity tool that analyzes five common 
-indicators from cyber incidents to estimate risk levels and 
-enable earlier, proactive threat responses.
+Cyber Shield is an AI-assisted cybersecurity risk analysis system that evaluates multiple cyber incident indicators to estimate organizational threat levels and support proactive security response.
 
 Features
 - Analyzes multiple cyber incident indicators simultaneously
